@@ -5,6 +5,8 @@ interface IApp {
   changeExpanded: (value: boolean) => void;
   dark: boolean;
   changeDark: (value: boolean) => void;
+  mode: boolean;
+  changeMode: (value: boolean) => void;
 }
 
 type Props = {
@@ -16,6 +18,7 @@ export const AppContext = React.createContext<IApp>({} as IApp);
 export const AppProvider = ({ children }: Props) => {
   const [expanded, setExpanded] = React.useState<boolean>(false);
   const [dark, setDark] = React.useState<boolean>(localStorage.getItem("dark") == "false" ? false : true);
+  const [mode, setMode] = React.useState<boolean>(localStorage.getItem("mode") == "true" ? true : false);
 
   const changeExpanded = (isSelect: boolean) => {
     setExpanded(isSelect);
@@ -25,9 +28,15 @@ export const AppProvider = ({ children }: Props) => {
     setDark(isSelect);
   };
 
+  const changeMode = (isSelect: boolean) => {
+    setMode(isSelect);
+  };
+
   return (
     <AppContext.Provider
       value={{
+        mode,
+        changeMode,
         changeDark,
         dark,
         changeExpanded,

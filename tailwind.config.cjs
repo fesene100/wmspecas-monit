@@ -6,6 +6,7 @@ module.exports = {
   //   preflight: false,
   // },
   darkMode: "class",
+
   theme: {
     colors: {
       primary: {
@@ -38,6 +39,14 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["Open Sans", "ui-sans-serif", "system-ui", "-apple-system"],
+      },
+      screens: {
+        desktop: "1200px",
+        tablet: "900px",
+        mobile: "660px",
+      },
+      fontSize: {
+        "2xs": "0.5rem",
       },
     },
   },

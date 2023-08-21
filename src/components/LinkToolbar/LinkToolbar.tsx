@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import { UseApp } from "../../hooks/AppProvider";
 
 export const LinkToolbar = ({ label, href, children }: { label: string; href: string; children?: React.ReactNode }) => {
-  const { expanded, dark } = UseApp();
+  const { expanded } = UseApp();
 
   return (
     <NavLink

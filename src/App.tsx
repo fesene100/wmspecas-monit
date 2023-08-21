@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { clsx } from "clsx";
-import { Column, Row, Text } from "componentes-web-lojas-cem";
+import { Column, Row } from "componentes-web-lojas-cem";
 import { Outlet, Route, Routes } from "react-router-dom";
 import { UseApp } from "./hooks/AppProvider";
 import { Toolbar } from "./pages/Toolbar/Toolbar";
@@ -9,6 +8,7 @@ import { ProspectPage } from "./pages/Prospect/ProspectPage";
 import { Monitpage } from "./pages/Monit/MonitPage";
 import { MonitProvider } from "./hooks/MonitProvider";
 import { VisualizerProspect } from "./pages/Prospect/VisualizerProspect";
+import { Config } from "./pages/Config/Config";
 
 function App() {
   const { dark, expanded } = UseApp();
@@ -35,15 +35,15 @@ function App() {
           }
         >
           <Route
-            path="/monitoramento"
+            path="/monitoramento/:dep?"
             element={
               <MonitProvider>
                 <Monitpage />
               </MonitProvider>
             }
           />
-
           <Route path="/searchProspect" element={<ProspectPage />} />
+          <Route path="/config" element={<Config />} />
         </Route>
         <Route path="/visualizerProspect/:codigo?" element={<VisualizerProspect />} />
         <Route path="/*" element={<NotFound />} />

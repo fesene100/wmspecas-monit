@@ -41,8 +41,7 @@ export const SelectComponent = ({ options, value, className, placeholder, isClea
           control: (base) => ({
             ...base,
             background: dark ? colors.neutral.dark.s00 : colors.neutral.light.s00,
-            width: "200px",
-            color: "#ff0000",
+            minWidth: "150px",
             ":hover": { boxShadow: `0px 0px 2px 1px ${defaultColor}` },
             cursor: "pointer",
           }),
