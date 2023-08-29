@@ -204,9 +204,35 @@ export const Graph = ({}: IGraph) => {
               fill: dark ? "#ffffff20" : "#32323230",
               cursor: "pointer",
             }}
+            barSize={5}
+            dataKey=""
+            name=""
+            fill={dark ? colors.neutral.dark.s00 : colors.neutral.light.s00}
+            opacity={0}
+          />
+
+          <Bar
+            cursor={"pointer"}
+            background={{
+              fill: dark ? "#ffffff20" : "#32323230",
+              cursor: "pointer",
+            }}
             dataKey="fim"
             name="Finalizado"
             fill={colors.success.s100}
+          />
+
+          <Bar
+            cursor={"pointer"}
+            background={{
+              fill: dark ? "#ffffff20" : "#32323230",
+              cursor: "pointer",
+            }}
+            barSize={5}
+            dataKey=""
+            name=""
+            fill={dark ? colors.neutral.dark.s00 : colors.neutral.light.s00}
+            opacity={0}
           />
 
           <Bar

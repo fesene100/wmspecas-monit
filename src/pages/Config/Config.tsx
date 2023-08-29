@@ -28,8 +28,8 @@ export const Config = () => {
             className={clsx("ml-10")}
             display={false}
             // color={dark ? "#22485f" : "#dedddd"}
-            lineColorChecked={colors.secondary.s100}
-            lineColorUnchecked={colors.neutral.light.s30}
+            lineColorUnchecked={colors.secondary.s100}
+            lineColorChecked={colors.info.s100}
             intensity={0.4}
           >
             {dark ? <Icon size={14} color="#3C1A7D" kind="night"></Icon> : <Icon size={14} color="#b8860b" kind="sun"></Icon>}

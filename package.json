@@ -1,7 +1,7 @@
 {
   "name": "wmspecas-monit",
   "private": true,
-  "version": "1.1.7",
+  "version": "1.1.9",
   "type": "module",
   "scripts": {
     "clean": "rimraf ./node_modules",
@@ -21,6 +21,7 @@
     "moment": "^2.29.4",
     "pdfjs-dist": "^3.9.179",
     "react": "^18.2.0",
+    "react-datepicker": "^4.16.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "react-router-dom": "^6.15.0",
@@ -32,6 +33,7 @@
   "devDependencies": {
     "@types/node": "^20.5.0",
     "@types/react": "^18.2.15",
+    "@types/react-datepicker": "^4.15.0",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react-swc": "^3.3.2",
     "autoprefixer": "^10.4.15",

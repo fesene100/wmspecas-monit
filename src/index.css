@@ -1,5 +1,6 @@
 @import url("../node_modules/estilos-lojas-cem/dist/typography/typography2.css");
 @import url("./assets/table.css");
+@import url("./assets/picker.css");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -19,4 +20,14 @@
   border-radius: 20px;
   border: 3px solid #3371ab;
   border-radius: 500px;
+}
+
+.react-datepicker {
+  font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+  font-size: 0.8rem;
+  background-color: #fff;
+  border: 1px solid #aeaeae;
+  /* border-radius: 5px; */
+  display: inline-block;
+  position: relative;
 }

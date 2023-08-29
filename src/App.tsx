@@ -9,9 +9,12 @@ import { Monitpage } from "./pages/Monit/MonitPage";
 import { MonitProvider } from "./hooks/MonitProvider";
 import { VisualizerProspect } from "./pages/Prospect/VisualizerProspect";
 import { Config } from "./pages/Config/Config";
+import { Home } from "./pages/Home/Home";
+import { MonitSA } from "./pages/MonitSA/MonitSA";
+import { MonitSaProvider } from "./hooks/MonitSaProvider";
 
 function App() {
-  const { dark, expanded } = UseApp();
+  const { dark } = UseApp();
 
   return (
     <Row width="100%" height="100vh" className={clsx(dark && "ds-dark dark", " flex-nowrap")}>
@@ -24,25 +27,33 @@ function App() {
               <Column
                 vertical="flex-start"
                 horizontal="center"
-                className={clsx(
-                  expanded ? "w-11/12" : "w-full",
-                  "delay-75 duration-100 h-full bg-neutral-light-s10 dark:bg-neutral-dark-s10"
-                )}
+                width="100%"
+                className={clsx("delay-75 duration-100 h-full bg-neutral-light-s10 dark:bg-neutral-dark-s10")}
               >
                 <Outlet />
               </Column>
             </>
           }
         >
+          <Route path="/" element={<Home />} />
           <Route
-            path="/monitoramento/:dep?"
+            path="/contagem/:dep?"
             element={
               <MonitProvider>
                 <Monitpage />
               </MonitProvider>
             }
           />
-          <Route path="/searchProspect" element={<ProspectPage />} />
+          <Route path="/searchProspect/:codigo?" element={<ProspectPage />} />
+          <Route
+            path="/monitSA/:dateparams?"
+            element={
+              <MonitSaProvider>
+                <MonitSA />
+              </MonitSaProvider>
+            }
+          />
+
           <Route path="/config" element={<Config />} />
         </Route>
         <Route path="/visualizerProspect/:codigo?" element={<VisualizerProspect />} />

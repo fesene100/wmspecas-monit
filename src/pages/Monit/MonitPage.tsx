@@ -14,7 +14,7 @@ export const Monitpage = (): JSX.Element => {
 
   return (
     <Header title="Monitoramento Contagem Peças">
-      <Row height="100px" width="95%" className="mb-4" horizontal="space-around">
+      <Row height="100px" width="95%" className="mb-4 flex-nowrap" horizontal="space-around">
         <Card
           icon={{ kind: "working", size: 35 }}
           name="Executando"
