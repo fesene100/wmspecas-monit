@@ -46,13 +46,13 @@ export const MonitSA = (): JSX.Element => {
       sortable: true,
       headerName: "SA",
       resizable: true,
-      minWidth: 80,
+      minWidth: 90,
       headerClass: "max-mobile:text-2xs",
       cellClass: "max-mobile:text-2xs",
     },
     {
       field: "operationName",
-      minWidth: 40,
+      minWidth: 80,
       sortable: true,
       filter: "string",
       headerName: "Operação",
@@ -62,7 +62,7 @@ export const MonitSA = (): JSX.Element => {
     },
     {
       field: "statusName",
-      minWidth: 40,
+      minWidth: 90,
       sortable: true,
       filter: "number",
       headerName: "Status",
@@ -72,7 +72,7 @@ export const MonitSA = (): JSX.Element => {
     },
     {
       field: "code",
-      minWidth: 70,
+      minWidth: 90,
       sortable: true,
       filter: "text",
       headerName: "Código Base",
@@ -83,7 +83,7 @@ export const MonitSA = (): JSX.Element => {
     {
       field: "destinyName",
       width: 120,
-      minWidth: 40,
+      minWidth: 80,
       sortable: true,
       filter: "string",
       headerName: "Destino",
@@ -93,7 +93,7 @@ export const MonitSA = (): JSX.Element => {
     },
     {
       field: "branch",
-      minWidth: 30,
+      minWidth: 60,
       sortable: true,
       filter: "number",
       headerName: "Filial",
@@ -103,7 +103,7 @@ export const MonitSA = (): JSX.Element => {
     },
     {
       field: "data",
-      minWidth: 50,
+      minWidth: 80,
       sortable: true,
       filter: "date",
       headerName: "Data",
@@ -152,7 +152,7 @@ export const MonitSA = (): JSX.Element => {
           onClick={() => {
             dataRequested?.refetch();
           }}
-          className="font-bold"
+          className="font-bold max-mobile:mt-4"
         >
           <Row>
             <MdSearch size={20} className="mr-1" />
@@ -160,7 +160,7 @@ export const MonitSA = (): JSX.Element => {
           </Row>
         </Button>
       </Row>
-      <Row height="100px" width="95%" className="mb-4 flex-nowrap" horizontal="space-around">
+      <Row height="100px" width="100%" className="mb-4 flex-nowrap" horizontal="space-around">
         <Card icon={{ kind: "working", size: 35 }} name="Executando" quantidade={countExec} />
         <Card icon={{ kind: "warning", size: 35 }} name="Ocorrências" quantidade={countOcor} />
         <Card icon={{ kind: "ok", size: 30 }} name="Liberados" quantidade={countLib} />

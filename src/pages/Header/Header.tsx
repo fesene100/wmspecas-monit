@@ -18,7 +18,7 @@ export const Header = ({ title, children }: { title: string; children: React.Rea
             "text-neutral-dark-s20 hover:text-neutral-dark-s00 dark:text-neutral-light-s20 dark:hover:text-neutral-light-s00  cursor-pointer ml-3 absolute tablet:hidden left-0"
           )}
         />
-        <Text fontSize="2xl" weight="600" align="center" asChild className="max-mobile:text-sm w-4/5">
+        <Text fontSize="2xl" weight="600" align="center" asChild className="max-mobile:text-base w-4/5">
           <h1>{title}</h1>
         </Text>
       </Row>
