@@ -134,11 +134,16 @@ export const MonitSA = (): JSX.Element => {
           </Text>
           <DatePicker
             showIcon
+            id="datepickerinput"
+            onInputClick={() => {
+              const picker = document.getElementById("datepickerinput");
+              if (picker) picker.blur();
+            }}
             highlightDates={highlightedDates}
             dateFormat="dd/MM/yyyy"
             placeholderText="DD/MM/YYYY"
             selected={moment(date).add(3, "hours").toDate()}
-            locale="pt-BR"
+            // locale="pt-BR"
             className="px-4 py-2 rounded-md bg-neutral-light-s10/90 dark:bg-neutral-dark-s20/90 text-center cursor-pointer"
             onChange={(date) => {
               navigate(`/monitSA/${moment(date).format("YYYY-MM-DD")}`);
