@@ -60,9 +60,9 @@ export const ProspectPage = (): JSX.Element => {
 
   //192.168.28.3:50000/wms_aplications/PECA_PROSPECTO/${String(codigo)}.pdf
 
-  http: return (
+  return (
     <Header title="Prospecto">
-      <Column width="100%" height="100%" horizontal="center" vertical="flex-start" className="flex-nowrap">
+      <Column width="100%" horizontal="center" vertical="flex-start" className="flex-nowrap">
         <Input
           label=" Código do produto:"
           propsInput={{
@@ -144,7 +144,7 @@ export const ProspectPage = (): JSX.Element => {
             );
           })}
 
-        <Row className="text-neutral-light-s10 dark:text-neutral-dark-s10" children="."></Row>
+        <Row height="100px" width="10px" className="text-neutral-light-s10 dark:text-neutral-dark-s10" children="."></Row>
       </Column>
     </Header>
   );

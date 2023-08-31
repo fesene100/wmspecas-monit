@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { colors } from "estilos-lojas-cem";
 import { LinkToolbar } from "../../components/LinkToolbar/LinkToolbar";
 import { UseApp } from "../../hooks/AppProvider";
-import { MdLogout, MdBarChart, MdOutlineMenuBook, MdOutlineAnalytics } from "react-icons/md";
+import { MdKeyboardArrowLeft, MdBarChart, MdOutlineMenuBook, MdOutlineAnalytics } from "react-icons/md";
 import { Iconwmspecas } from "../../components/svg/Iconwmspecas";
 import { Iconcem } from "../../components/svg/Iconcem";
 import moment from "moment";
@@ -21,15 +21,22 @@ export const Toolbar = ({ children, className }: InterfaceToolbar): JSX.Element 
     <Column
       vertical="space-between"
       horizontal="center"
-      bg="20"
       onMouseEnter={() => changeExpanded(true)}
       onMouseLeave={() => changeExpanded(false)}
+      style={{ boxShadow: dark ? "2px 0 5px #101010" : "2px 0 5px #999" }}
       className={clsx(
-        expanded ? "w-[300px] max-tablet:w-[350px] max-mobile:w-[400px]" : "max-tablet:hidden",
-        "min-w-[5em] h-full delay-75 duration-100 overflow-hidden flex-nowrap",
+        expanded
+          ? "w-[300px] max-tablet:w-[300px] max-mobile:w-[250px] max-tablet:absolute max-tablet:top-0 duration-500"
+          : "w-[80px] max-tablet:w-0 max-tablet:min-w-0 tablet:duration-200",
+        "min-w-[5em] z-50 h-full overflow-hidden flex-nowrap bg-primary-s120 dark:bg-primary-s140",
         className
       )}
     >
+      {expanded && (
+        <Row className="absolute top-6 left-5 tablet:hidden cursor-pointer" onClick={() => changeExpanded(false)}>
+          <MdKeyboardArrowLeft size={25} className="text-neutral-light-s20 hover:text-neutral-light-s00" />
+        </Row>
+      )}
       <div
         onDoubleClick={() => {
           location.reload();
@@ -43,15 +50,15 @@ export const Toolbar = ({ children, className }: InterfaceToolbar): JSX.Element 
       <Column vertical="flex-start" horizontal="flex-start" height="80%" width="100%">
         {/*-> MONIT SA */}
         <LinkToolbar href={`/monitSA/${moment().subtract(1, "day").format("YYYY-MM-DD")}`} label="Serviços">
-          <MdOutlineAnalytics size={25} color={dark ? colors.neutral.light.s20 : colors.neutral.dark.s20} />
+          <MdOutlineAnalytics size={25} color={colors.neutral.light.s10} />
         </LinkToolbar>
         {/*-> MONITORAMENTO */}
         <LinkToolbar href="/contagem" label="Contagem">
-          <MdBarChart size={25} color={dark ? colors.neutral.light.s20 : colors.neutral.dark.s20} />
+          <MdBarChart size={25} color={colors.neutral.light.s10} />
         </LinkToolbar>
         {/*-> PROSPECTO */}
         <LinkToolbar href="/searchProspect" label="Prospecto">
-          <MdOutlineMenuBook size={25} color={dark ? colors.neutral.light.s20 : colors.neutral.dark.s20} />
+          <MdOutlineMenuBook size={25} color={colors.neutral.light.s10} />
         </LinkToolbar>
 
         {children}
@@ -59,7 +66,7 @@ export const Toolbar = ({ children, className }: InterfaceToolbar): JSX.Element 
       <Column vertical="flex-end" horizontal="flex-start" width="100%" height="20%">
         {/*IDEA CONFIGURAÇÕES */}
         <LinkToolbar href="/config" label="Configurações">
-          <Icon color={dark ? colors.neutral.light.s20 : colors.neutral.dark.s20} size={30} kind="working"></Icon>
+          <Icon color={colors.neutral.light.s10} size={30} kind="working"></Icon>
         </LinkToolbar>
         {/* IDEA -> LOGOUT */}
         {/* <LinkToolbar href="/" label="Logout">

@@ -11,17 +11,13 @@ export const LinkToolbar = ({ label, href, children }: { label: string; href: st
     <NavLink
       to={href}
       className={({ isActive }) => {
-        return clsx(
-          "w-full h-10 pl-6 mb-4 cursor-pointer ",
-          isActive && "bg-neutral-light-s00/60 dark:bg-neutral-dark-s00/60",
-          "hover:bg-neutral-light-s30/40"
-        );
+        return clsx("w-full h-10 pl-6 mb-4 cursor-pointer ", isActive && "bg-primary-s080", "hover:bg-neutral-light-s30/20");
       }}
     >
       <Row width="100%" height="100%" className="overflow-hidden">
         {children}
         {expanded && (
-          <Text fontSize={"md"} asChild className={clsx("ml-3", "w-0")} weight="400" color="medium">
+          <Text fontSize={"md"} asChild className={clsx("ml-3 text-neutral-light-s10", "w-0")} weight="400">
             <h1>{label}</h1>
           </Text>
         )}

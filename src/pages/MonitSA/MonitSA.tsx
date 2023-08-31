@@ -481,7 +481,7 @@ export const MonitSA = (): JSX.Element => {
         />
       </div>
 
-      <Row height="50px" width="200px" />
+      <Row height="100px" width="200px" />
     </Header>
   );
 };

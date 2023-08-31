@@ -37,7 +37,7 @@ export const Config = () => {
         </Row>
         <Row>
           <Text fontSize="xl" asChild>
-            <h1>Modo TI</h1>
+            <h1>Modo DEV</h1>
           </Text>
           <ButtonSliderIot
             checked={mode}

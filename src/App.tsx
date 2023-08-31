@@ -14,7 +14,7 @@ import { MonitSA } from "./pages/MonitSA/MonitSA";
 import { MonitSaProvider } from "./hooks/MonitSaProvider";
 
 function App() {
-  const { dark } = UseApp();
+  const { dark, expanded } = UseApp();
 
   return (
     <Row width="100%" height="100vh" className={clsx(dark && "ds-dark dark", " flex-nowrap")}>
@@ -28,8 +28,15 @@ function App() {
                 vertical="flex-start"
                 horizontal="center"
                 width="100%"
-                className={clsx("delay-75 duration-100 h-full bg-neutral-light-s10 dark:bg-neutral-dark-s10")}
+                className={clsx("h-full bg-neutral-light-s10 dark:bg-neutral-dark-s10")}
               >
+                {expanded && (
+                  <Row
+                    className="max-tablet:bg-neutral-dark-s00/20 max-tablet:backdrop-blur-[2px] absolute z-40 "
+                    width="100%"
+                    height="100%"
+                  />
+                )}
                 <Outlet />
               </Column>
             </>
