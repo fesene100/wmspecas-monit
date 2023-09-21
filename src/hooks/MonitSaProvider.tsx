@@ -113,10 +113,10 @@ export const MonitSaProvider = ({ children }: Props) => {
           if (sa.status == 4) {
             newExec += 1;
           }
-          if (sa.status == 5) {
+          if (sa.status == 5 || sa.status == 8 || sa.status == 9 || sa.status == 10) {
             newFim += 1;
           }
-          if (sa.status >= 6) {
+          if (sa.status == 6 || sa.status == 7) {
             newOcor += 1;
           }
         });
