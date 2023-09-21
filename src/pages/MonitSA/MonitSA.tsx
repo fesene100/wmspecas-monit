@@ -194,7 +194,45 @@ export const MonitSA = (): JSX.Element => {
             <XAxis
               dataKey={"protocolo"}
               height={70}
-              tick={{ fill: dark ? "#fff" : "#323232" }}
+              tick={(props) => {
+                const finded = dataGraph.find((value) => {
+                  return value.protocolo == Number(props.payload.value);
+                });
+
+                return (
+                  <>
+                    <circle
+                      cx={props.x - 45}
+                      cy={props.y + 45}
+                      r={4}
+                      className={
+                        finded?.departamentNumber == 1 && finded.statusNumber == 1
+                          ? "fill-error-s100"
+                          : finded?.departamentNumber == 2 && finded.statusNumber == 2
+                          ? "fill-attention-s100"
+                          : "fill-none"
+                      }
+                    />
+                    <text
+                      transform={`rotate(-45 ${props.x},${props.y})`}
+                      x={props.x}
+                      y={props.y}
+                      dy={6}
+                      dx={-30}
+                      fontSize={"12px"}
+                      fontWeight={
+                        finded?.departamentNumber == 1 && finded.statusNumber == 1
+                          ? 800
+                          : finded?.departamentNumber == 2 && finded.statusNumber == 2
+                          ? 800
+                          : 400
+                      }
+                      className={"fill-neutral-dark-s00 dark:fill-neutral-light-s00"}
+                      textAnchor="middle"
+                    >{`${props.payload.value}`}</text>
+                  </>
+                );
+              }}
               fontSize={"0.8em"}
               dy={25}
               stroke={dark ? "#fff" : "#323232"}
@@ -335,6 +373,7 @@ export const MonitSA = (): JSX.Element => {
 
             <Bar
               cursor={"pointer"}
+              radius={2}
               stackId="a"
               background={{
                 fill: dark ? "#ffffff10" : "#32323218",
@@ -391,6 +430,7 @@ export const MonitSA = (): JSX.Element => {
 
             <Bar
               cursor={"pointer"}
+              radius={2}
               background={{
                 fill: dark ? "#ffffff20" : "#32323230",
                 cursor: "pointer",
@@ -415,6 +455,7 @@ export const MonitSA = (): JSX.Element => {
 
             <Bar
               cursor={"pointer"}
+              radius={2}
               background={{
                 fill: dark ? "#ffffff20" : "#32323230",
                 cursor: "pointer",

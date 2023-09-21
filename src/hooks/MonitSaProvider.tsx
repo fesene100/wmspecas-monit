@@ -9,7 +9,9 @@ interface IGraphSa {
   service: number;
   protocolo: number;
   status: string;
+  statusNumber: number;
   departament: string;
+  departamentNumber: number;
   countPending: number;
   countExecuting: number;
   countFinished: number;
@@ -128,6 +130,8 @@ export const MonitSaProvider = ({ children }: Props) => {
         newGraphdata.push({
           service: value.service,
           protocolo: value.protocolo,
+          departamentNumber: value.department,
+          statusNumber: value.status,
           departament: value.department == 1 ? ` pelo administrativo` : ` pelo operacional`,
           status: value.status == 1 ? "Criado " : value.status == 2 ? "Recebido" : value.status == 3 ? "Finalizado" : "Cancelado",
           countExecuting: 0,

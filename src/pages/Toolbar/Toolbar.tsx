@@ -49,7 +49,7 @@ export const Toolbar = ({ children, className }: InterfaceToolbar): JSX.Element 
       </div>
       <Column vertical="flex-start" horizontal="flex-start" height="80%" width="100%">
         {/*-> MONIT SA */}
-        <LinkToolbar href={`/monitSA/${moment().subtract(1, "day").format("YYYY-MM-DD")}`} label="Serviços">
+        <LinkToolbar href={`/monitSA/${moment().format("YYYY-MM-DD")}`} label="Serviços">
           <MdOutlineAnalytics size={25} color={colors.neutral.light.s10} />
         </LinkToolbar>
         {/*-> MONITORAMENTO */}
