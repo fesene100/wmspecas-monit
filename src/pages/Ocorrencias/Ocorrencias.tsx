@@ -271,7 +271,7 @@ export const Ocorrencias = (): JSX.Element => {
           className={"min-w-[90px] w-1/6 max-mobile:w-[10%] cursor-pointer p-2 px-4 rounded-lg shadow-md max-tablet:p-0"}
         >
           <Row height={"100%"} width={"30%"} vertical="center" horizontal="center" className="max-tablet:hidden">
-            <MdWarning size={35} />
+            <MdWarning className="dark:text-neutral-light-s00" size={35} />
           </Row>
           <Column width="70%" vertical="center" className="items-end max-tablet:items-center max-tablet:w-full">
             <Text asChild fontSize="lg" weight="900" align="center">
@@ -291,7 +291,7 @@ export const Ocorrencias = (): JSX.Element => {
           className={"min-w-[90px] w-1/6 max-mobile:w-[10%] cursor-pointer p-2 px-4 rounded-lg shadow-md max-tablet:p-0"}
         >
           <Row height={"100%"} width={"30%"} vertical="center" horizontal="center" className="max-tablet:hidden">
-            <MdTextSnippet size={35} />
+            <MdTextSnippet className="dark:text-neutral-light-s00" size={35} />
           </Row>
           <Column width="70%" vertical="center" className="items-end max-tablet:items-center max-tablet:w-full">
             <Text asChild fontSize="lg" weight="900" align="center">
@@ -311,7 +311,7 @@ export const Ocorrencias = (): JSX.Element => {
           className={"min-w-[90px] w-1/6 max-mobile:w-[10%] cursor-pointer p-2 px-4 rounded-lg shadow-md max-tablet:p-0"}
         >
           <Row height={"100%"} width={"30%"} vertical="center" horizontal="center" className="max-tablet:hidden">
-            <MdOutlinePlumbing size={35} />
+            <MdOutlinePlumbing className="dark:text-neutral-light-s00" size={35} />
           </Row>
           <Column width="70%" vertical="center" className="items-end max-tablet:items-center max-tablet:w-full">
             <Text asChild fontSize="lg" weight="900" align="center">
