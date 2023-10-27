@@ -12,6 +12,8 @@ import { Config } from "./pages/Config/Config";
 import { Home } from "./pages/Home/Home";
 import { MonitSA } from "./pages/MonitSA/MonitSA";
 import { MonitSaProvider } from "./hooks/MonitSaProvider";
+import { Ocorrencias } from "./pages/Ocorrencias/Ocorrencias";
+import { OcorrenciasProvider } from "./hooks/OcorrenciasProvider";
 
 function App() {
   const { dark, expanded } = UseApp();
@@ -60,7 +62,14 @@ function App() {
               </MonitSaProvider>
             }
           />
-
+          <Route
+            path="/ocorrencias/"
+            element={
+              <OcorrenciasProvider>
+                <Ocorrencias />
+              </OcorrenciasProvider>
+            }
+          />
           <Route path="/config" element={<Config />} />
         </Route>
         <Route path="/visualizerProspect/:codigo?" element={<VisualizerProspect />} />

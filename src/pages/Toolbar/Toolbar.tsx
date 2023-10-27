@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { colors } from "estilos-lojas-cem";
 import { LinkToolbar } from "../../components/LinkToolbar/LinkToolbar";
 import { UseApp } from "../../hooks/AppProvider";
-import { MdKeyboardArrowLeft, MdBarChart, MdOutlineMenuBook, MdOutlineAnalytics } from "react-icons/md";
+import { MdKeyboardArrowLeft, MdBarChart, MdOutlineMenuBook, MdOutlineAnalytics, MdOutlineWarning } from "react-icons/md";
 import { Iconwmspecas } from "../../components/svg/Iconwmspecas";
 import { Iconcem } from "../../components/svg/Iconcem";
 import moment from "moment";
@@ -55,6 +55,10 @@ export const Toolbar = ({ children, className }: InterfaceToolbar): JSX.Element 
         {/*-> MONITORAMENTO */}
         <LinkToolbar href="/contagem" label="Contagem">
           <MdBarChart size={25} color={colors.neutral.light.s10} />
+        </LinkToolbar>
+        {/*-> OCORRENCIAS */}
+        <LinkToolbar href="/ocorrencias" label="Ocorrências">
+          <MdOutlineWarning size={25} color={colors.neutral.light.s10} />
         </LinkToolbar>
         {/*-> PROSPECTO */}
         <LinkToolbar href="/searchProspect" label="Prospecto">

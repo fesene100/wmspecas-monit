@@ -2,6 +2,7 @@ import axios from "axios";
 import { IGraphContagem, IListContagem, IServicesMonit } from "../../../wmspecas/src/models/monitoramentoService";
 import { IListOccorrency } from "../../../wmspecas/src/models/monitoramentoService";
 import { PECA_ITEM } from "../../../wmspecas/prisma/generated/clientPeca";
+import { IGraphOcorrencias } from "../hooks/OcorrenciasProvider";
 
 const API = import.meta.env.PROD ? import.meta.env.VITE_API_PROD : import.meta.env.VITE_API;
 
@@ -91,6 +92,58 @@ export async function servicesData() {
     const resposta: { data: { SER_DATA: Date }[] } = await axios({
       method: "GET",
       url: `http://${API}/monitoramento/servicesData/`,
+    });
+    return resposta.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Sem conexão com o servidor !");
+  }
+}
+
+export async function servicesDatesOccurrency() {
+  try {
+    const resposta: { data: IGraphOcorrencias[] } = await axios({
+      method: "GET",
+      url: `http://${API}/monitoramento/datesOccurrency/`,
+    });
+    return resposta.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Sem conexão com o servidor !");
+  }
+}
+
+export interface ISAOcorrList {
+  seq: number;
+  dateCreated: Date;
+  number: number;
+  store: number;
+  reason: string;
+  user: string;
+  maq: string;
+  date: Date;
+}
+
+export interface IPecaOcorrList {
+  seq: number;
+  dateCreated: Date;
+  number: number;
+  local: string;
+  reason: string;
+  stock: number;
+  description: string;
+  product: string;
+  address: string;
+  user: string;
+  maq: string;
+  date: Date;
+}
+
+export async function servicesOccurrencyPerdate({ queryKey }: any) {
+  try {
+    const resposta: { data: { pecas: IPecaOcorrList[]; sa: ISAOcorrList[] } } = await axios({
+      method: "GET",
+      url: `http://${API}/monitoramento/datesOccurrencyList/${queryKey ? queryKey : ""}`,
     });
     return resposta.data;
   } catch (error) {
