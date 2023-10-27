@@ -28,7 +28,7 @@ export const Toolbar = ({ children, className }: InterfaceToolbar): JSX.Element 
         expanded
           ? "w-[300px] max-tablet:w-[300px] max-mobile:w-[250px] max-tablet:absolute max-tablet:top-0 duration-500"
           : "w-[80px] max-tablet:w-0 max-tablet:min-w-0 tablet:duration-200",
-        "min-w-[5em] z-50 h-full overflow-hidden flex-nowrap bg-primary-s120 dark:bg-primary-s140",
+        "min-w-[5em] z-50 h-full overflow-hidden flex-nowrap bg-primary-s120 dark:bg-primary-s140 animate-fade",
         className
       )}
     >

@@ -560,10 +560,9 @@ export const Ocorrencias = (): JSX.Element => {
               "ag-theme-alpine shadow-lg rounded-2xl overflow-hidden mt-4 relative bg-primary-s010",
               dataRequestedList?.isFetching && "opacity-30"
             )}
-            style={{ maxHeight: "250px", width: "95%" }}
+            style={{ height: "250px", width: "95%" }}
           >
             <AgGridReact
-              domLayout="autoHeight"
               noRowsOverlayComponent={() => {
                 return (
                   <Column horizontal="center">
@@ -603,11 +602,10 @@ export const Ocorrencias = (): JSX.Element => {
               dark ? "ag-theme-alpine-dark" : "ag-theme-alpine",
               "ag-theme-alpine shadow-lg rounded-2xl overflow-hidden mt-4 relative bg-primary-s010"
             )}
-            style={{ maxHeight: "250px", width: "95%" }}
+            style={{ height: "250px", width: "95%" }}
           >
             <AgGridReact
               ref={gridRef}
-              domLayout="autoHeight"
               noRowsOverlayComponent={() => {
                 return (
                   <Column horizontal="center">

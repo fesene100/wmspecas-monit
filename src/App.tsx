@@ -34,7 +34,7 @@ function App() {
               >
                 {expanded && (
                   <Row
-                    className="max-tablet:bg-neutral-dark-s00/20 max-tablet:backdrop-blur-[2px] absolute z-40 "
+                    className="max-tablet:bg-neutral-dark-s00/20 max-tablet:backdrop-blur-[2px] absolute z-40"
                     width="100%"
                     height="100%"
                   />
