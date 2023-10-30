@@ -42,10 +42,9 @@ export const Ocorrencias = (): JSX.Element => {
       cellClass: "max-mobile:text-2xs",
     },
     {
-      field: "date",
+      field: "dateCreated",
       width: 110,
       sortable: true,
-      filter: "dateCreated",
       headerName: "Data",
       resizable: true,
       headerClass: "max-mobile:text-2xs",
@@ -172,7 +171,7 @@ export const Ocorrencias = (): JSX.Element => {
       cellClass: "max-mobile:text-2xs",
     },
     {
-      field: "date",
+      field: "dateCreated",
       width: 110,
       sortable: true,
       filter: "date",
@@ -236,7 +235,7 @@ export const Ocorrencias = (): JSX.Element => {
       cellClass: "max-mobile:text-2xs",
     },
     {
-      field: "dateCreated",
+      field: "date",
       width: 130,
       sortable: true,
       filter: "date",
