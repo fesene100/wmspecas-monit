@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { UseApp } from "../../hooks/AppProvider";
 import { AgGridReact } from "ag-grid-react";
-import { ColDef } from "ag-grid-community";
-import { Column, Row, Text } from "componentes-web-lojas-cem";
+import { ColDef, INumberFilterParams } from "ag-grid-community";
+import { Column, Text } from "componentes-web-lojas-cem";
 import { UseMonit } from "../../hooks/MonitProvider";
 import { EmptyDataIcon } from "../../components/svg/EmptyDataIcon/EmptyDataIcon";
 
@@ -63,7 +63,11 @@ export const ListOcor: React.FC = () => {
     {
       field: "produtoDesc",
       sortable: true,
-      filter: "number",
+      filter: "agNumberColumnFilter",
+      filterParams: {
+        buttons: ["apply", "reset"],
+        closeOnApply: true,
+      } as INumberFilterParams,
       headerName: "Produto",
       resizable: true,
       headerClass: "text-xs max-mobile:text-2xs",

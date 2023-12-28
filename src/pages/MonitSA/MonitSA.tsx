@@ -11,7 +11,7 @@ import clsx from "clsx";
 import { AgGridReact } from "ag-grid-react";
 import { useRef, useState } from "react";
 import { EmptyDataIcon } from "../../components/svg/EmptyDataIcon/EmptyDataIcon";
-import { ColDef } from "ag-grid-community";
+import { ColDef, INumberFilterParams } from "ag-grid-community";
 import React from "react";
 import moment from "moment";
 import { serviceProduto } from "../../repository/contagem";
@@ -64,7 +64,11 @@ export const MonitSA = (): JSX.Element => {
       field: "statusName",
       minWidth: 90,
       sortable: true,
-      filter: "number",
+      filter: "agNumberColumnFilter",
+      filterParams: {
+        buttons: ["apply", "reset"],
+        closeOnApply: true,
+      } as INumberFilterParams,
       headerName: "Status",
       resizable: true,
       headerClass: "max-mobile:text-2xs",
@@ -95,7 +99,11 @@ export const MonitSA = (): JSX.Element => {
       field: "branch",
       minWidth: 60,
       sortable: true,
-      filter: "number",
+      filter: "agNumberColumnFilter",
+      filterParams: {
+        buttons: ["apply", "reset"],
+        closeOnApply: true,
+      } as INumberFilterParams,
       headerName: "Filial",
       resizable: true,
       headerClass: "max-mobile:text-2xs",
@@ -105,7 +113,7 @@ export const MonitSA = (): JSX.Element => {
       field: "data",
       minWidth: 80,
       sortable: true,
-      filter: "date",
+      filter: "agDateColumnFilter",
       headerName: "Data",
       resizable: true,
       headerClass: "max-mobile:text-2xs",

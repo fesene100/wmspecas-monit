@@ -6,7 +6,7 @@ import { UseApp } from "../../hooks/AppProvider";
 import { colors } from "estilos-lojas-cem";
 import { useRef, useState } from "react";
 import { EmptyDataIcon } from "../../components/svg/EmptyDataIcon/EmptyDataIcon";
-import { ColDef } from "ag-grid-community";
+import { ColDef, INumberFilterParams } from "ag-grid-community";
 import moment from "moment";
 import { UseOcorrencias } from "../../hooks/OcorrenciasProvider";
 import clsx from "clsx";
@@ -45,7 +45,7 @@ export const Ocorrencias = (): JSX.Element => {
       field: "dateCreated",
       width: 110,
       sortable: true,
-      headerName: "Data",
+      headerName: "agDateColumnFilter",
       resizable: true,
       headerClass: "max-mobile:text-2xs",
       cellClass: "max-mobile:text-2xs",
@@ -58,7 +58,11 @@ export const Ocorrencias = (): JSX.Element => {
       field: "number",
       width: 130,
       sortable: true,
-      filter: "number",
+      filter: "agNumberColumnFilter",
+      filterParams: {
+        buttons: ["apply", "reset"],
+        closeOnApply: true,
+      } as INumberFilterParams,
       headerName: "SA",
       resizable: true,
       headerClass: "max-mobile:text-2xs",
@@ -89,7 +93,11 @@ export const Ocorrencias = (): JSX.Element => {
       width: 100,
       minWidth: 80,
       sortable: true,
-      filter: "number",
+      filter: "agNumberColumnFilter",
+      filterParams: {
+        buttons: ["apply", "reset"],
+        closeOnApply: true,
+      } as INumberFilterParams,
       headerName: "Estoque",
       headerClass: "max-mobile:text-2xs",
       cellClass: "max-mobile:text-2xs",
@@ -149,7 +157,7 @@ export const Ocorrencias = (): JSX.Element => {
       field: "date",
       width: 110,
       sortable: true,
-      filter: "date",
+      filter: "agDateColumnFilter",
       headerName: "Data alteração",
       resizable: true,
       headerClass: "max-mobile:text-2xs",
@@ -174,7 +182,7 @@ export const Ocorrencias = (): JSX.Element => {
       field: "dateCreated",
       width: 110,
       sortable: true,
-      filter: "date",
+      filter: "agDateColumnFilter",
       headerName: "Data",
       resizable: true,
       headerClass: "max-mobile:text-2xs",
@@ -188,7 +196,11 @@ export const Ocorrencias = (): JSX.Element => {
       field: "number",
       width: 130,
       sortable: true,
-      filter: "number",
+      filter: "agNumberColumnFilter",
+      filterParams: {
+        buttons: ["apply", "reset"],
+        closeOnApply: true,
+      } as INumberFilterParams,
       headerName: "SA",
       resizable: true,
       headerClass: "max-mobile:text-2xs",
@@ -238,7 +250,7 @@ export const Ocorrencias = (): JSX.Element => {
       field: "date",
       width: 130,
       sortable: true,
-      filter: "date",
+      filter: "agDateColumnFilter",
       headerName: "Data alteração",
       resizable: true,
       headerClass: "max-mobile:text-2xs",

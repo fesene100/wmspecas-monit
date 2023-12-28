@@ -17,7 +17,7 @@ export const AppContext = React.createContext<IApp>({} as IApp);
 
 export const AppProvider = ({ children }: Props) => {
   const [expanded, setExpanded] = React.useState<boolean>(false);
-  const [dark, setDark] = React.useState<boolean>(localStorage.getItem("dark") == "false" ? false : true);
+  const [dark, setDark] = React.useState<boolean>(localStorage.getItem("dark") == "true" ? true : false);
   const [mode, setMode] = React.useState<boolean>(localStorage.getItem("mode") == "true" ? true : false);
 
   const changeExpanded = (isSelect: boolean) => {

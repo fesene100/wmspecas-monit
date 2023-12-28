@@ -21,8 +21,8 @@
 .ag-theme-alpine,
 .ag-theme-alpine-dark {
   --ag-alpine-active-color: #2196f3;
-  --ag-selected-row-background-color: rgba(51, 113, 171, 0.3);
-  --ag-row-hover-color: rgba(33, 150, 243, 0.1);
+  --ag-selected-row-background-color: rgba(191, 206, 254, 1);
+  --ag-row-hover-color: rgba(219, 227, 254, 1);
   --ag-column-hover-color: rgba(33, 150, 243, 0.1);
   --ag-input-focus-border-color: rgba(33, 150, 243, 0.4);
   --ag-range-selection-background-color: rgba(33, 150, 243, 0.2);
@@ -30,10 +30,10 @@
   --ag-range-selection-background-color-3: rgba(33, 150, 243, 0.49);
   --ag-range-selection-background-color-4: rgba(33, 150, 243, 0.59);
   --ag-background-color: #fff;
-  --ag-foreground-color: #181d1f;
-  --ag-border-color: #dde2eb;
-  --ag-secondary-border-color: #dde2eb;
-  --ag-header-background-color: #f8f8f8;
+  --ag-foreground-color: #404040;
+  --ag-border-color: #dedede;
+  --ag-secondary-border-color: #ededed;
+  --ag-header-background-color: #fff;
   --ag-tooltip-background-color: #f8f8f8;
   --ag-odd-row-background-color: #fcfcfc;
   --ag-control-panel-background-color: #f8f8f8;
@@ -87,7 +87,9 @@
 
 .ag-theme-alpine-dark {
   --ag-background-color: #222628;
-  --ag-foreground-color: #fff;
+  --ag-foreground-color: #dedede;
+  --ag-selected-row-background-color: rgba(191, 206, 254, 0.3);
+  --ag-row-hover-color: rgba(219, 227, 254, 0.3);
   --ag-border-color: #68686e;
   --ag-secondary-border-color: rgba(88, 86, 82, 0.5);
   --ag-modal-overlay-background-color: rgba(24, 29, 31, 0.66);

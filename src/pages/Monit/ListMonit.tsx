@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { UseApp } from "../../hooks/AppProvider";
 import { AgGridReact } from "ag-grid-react";
-import { ColDef } from "ag-grid-community";
+import { ColDef, INumberFilterParams } from "ag-grid-community";
 import { Column, Row, Text } from "componentes-web-lojas-cem";
 import { UseMonit } from "../../hooks/MonitProvider";
 import { EmptyDataIcon } from "../../components/svg/EmptyDataIcon/EmptyDataIcon";
@@ -28,7 +28,11 @@ export const ListMonit: React.FC = () => {
       field: "seqItem",
       minWidth: 60,
       sortable: true,
-      filter: "number",
+        filter: "agNumberColumnFilter",
+      filterParams: {
+        buttons: ["apply", "reset"],
+        closeOnApply: true,
+      } as INumberFilterParams,
       headerName: "Peça",
       resizable: true,
       headerClass: "max-mobile:text-2xs",
@@ -39,7 +43,11 @@ export const ListMonit: React.FC = () => {
       hide: mode ? false : true,
       minWidth: 80,
       sortable: true,
-      filter: "number",
+        filter: "agNumberColumnFilter",
+      filterParams: {
+        buttons: ["apply", "reset"],
+        closeOnApply: true,
+      } as INumberFilterParams,
       headerName: "Qtde",
       resizable: true,
       headerClass: "max-mobile:text-2xs",
@@ -60,7 +68,11 @@ export const ListMonit: React.FC = () => {
       width: 90,
       minWidth: 40,
       sortable: true,
-      filter: "number",
+        filter: "agNumberColumnFilter",
+      filterParams: {
+        buttons: ["apply", "reset"],
+        closeOnApply: true,
+      } as INumberFilterParams,
       headerName: "Status",
       headerClass: "max-mobile:text-2xs",
       cellClass: "max-mobile:text-2xs",
@@ -83,7 +95,11 @@ export const ListMonit: React.FC = () => {
       field: "ocorrencias",
       minWidth: 30,
       sortable: true,
-      filter: "number",
+        filter: "agNumberColumnFilter",
+      filterParams: {
+        buttons: ["apply", "reset"],
+        closeOnApply: true,
+      } as INumberFilterParams,
       headerName: "Ocorrências",
       resizable: true,
       headerClass: "max-mobile:text-2xs",
