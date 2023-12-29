@@ -17,7 +17,7 @@ export const LinkToolbar = ({ label, href, children }: { label: string; href: st
       <Row width="100%" height="100%" className="overflow-hidden">
         {children}
         {expanded && (
-          <Text fontSize={"md"} asChild className={clsx("ml-3 text-neutral-light-s10", "w-0")} weight="400">
+          <Text fontSize={"sm"} asChild className={clsx("ml-3 text-neutral-light-s10", "w-0")} weight="400">
             <h1>{label}</h1>
           </Text>
         )}

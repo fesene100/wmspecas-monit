@@ -72,8 +72,8 @@
   --ag-widget-vertical-spacing: calc(var(--ag-grid-size) * 1.5);
   --ag-toggle-button-height: 18px;
   --ag-toggle-button-width: 28px;
-  --ag-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
-    sans-serif;
+  --ag-font-family: "Open sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+    "Helvetica Neue", sans-serif;
   --ag-font-size: 13px;
   --ag-icon-font-family: agGridAlpine;
   --ag-selected-tab-underline-color: var(--ag-alpine-active-color);
