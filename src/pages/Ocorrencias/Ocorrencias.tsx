@@ -10,7 +10,8 @@ import { ColDef, INumberFilterParams } from "ag-grid-community";
 import moment from "moment";
 import { UseOcorrencias } from "../../hooks/OcorrenciasProvider";
 import clsx from "clsx";
-import { MdWarning, MdTextSnippet, MdOutlinePlumbing } from "react-icons/md";
+import { MdWarning, MdTextSnippet } from "react-icons/md";
+import { PiPuzzlePieceFill } from "react-icons/pi";
 import { AgGridReact } from "ag-grid-react";
 
 export const Ocorrencias = (): JSX.Element => {
@@ -45,7 +46,8 @@ export const Ocorrencias = (): JSX.Element => {
       field: "dateCreated",
       width: 110,
       sortable: true,
-      headerName: "agDateColumnFilter",
+      headerName: "Data",
+      filter: "agDateColumnFilter",
       resizable: true,
       headerClass: "max-mobile:text-2xs",
       cellClass: "max-mobile:text-2xs",
@@ -53,7 +55,6 @@ export const Ocorrencias = (): JSX.Element => {
         return moment(params.value).utc(false).format("DD/MM/YYYY");
       },
     },
-
     {
       field: "number",
       width: 130,
@@ -322,7 +323,7 @@ export const Ocorrencias = (): JSX.Element => {
           className={"min-w-[90px] w-1/6 max-mobile:w-[10%] cursor-pointer p-2 px-4 rounded-lg shadow-md max-tablet:p-0"}
         >
           <Row height={"100%"} width={"30%"} vertical="center" horizontal="center" className="max-tablet:hidden">
-            <MdOutlinePlumbing className="dark:text-neutral-light-s00" size={35} />
+            <PiPuzzlePieceFill className="dark:text-neutral-light-s00" size={35} />
           </Row>
           <Column width="70%" vertical="center" className="items-end max-tablet:items-center max-tablet:w-full">
             <Text asChild fontSize="lg" weight="900" align="center">
@@ -355,7 +356,7 @@ export const Ocorrencias = (): JSX.Element => {
             }}
           >
             <XAxis
-              dataKey={"dateString"}
+              dataKey={"date"}
               height={70}
               fontSize={"0.8em"}
               dy={25}
@@ -365,7 +366,7 @@ export const Ocorrencias = (): JSX.Element => {
               interval={0}
               tick={(props) => {
                 const finded = dataGraph.find((value) => {
-                  return value.dateString == props.payload.value;
+                  return value.date == props.payload.value;
                 });
 
                 if (!finded) return <></>;
@@ -398,7 +399,7 @@ export const Ocorrencias = (): JSX.Element => {
                       fontWeight={600}
                       className={clsx("fill-neutral-dark-s00 dark:fill-neutral-light-s00")}
                       textAnchor="middle"
-                    >{`${props.payload.value}`}</text>
+                    >{`${moment(props.payload.value).utc(false).format("DD/MM")}`}</text>
                   </>
                 );
               }}

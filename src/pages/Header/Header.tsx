@@ -29,7 +29,7 @@ export const Header = ({ title, children }: { title: string; children: React.Rea
           )}
         />
         <Text
-          fontSize="2xl"
+          fontSize="xl"
           weight="600"
           align="center"
           asChild
