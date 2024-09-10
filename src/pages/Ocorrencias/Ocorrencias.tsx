@@ -1,263 +1,209 @@
-import React, { useEffect } from "react";
-import { Column, Row, Text } from "componentes-web-lojas-cem";
-import { Header } from "../Header/Header";
+import { useEffect } from "react";
+import { Row } from "componentes-web-lojas-cem";
 import { Area, AreaChart, Bar, BarChart, Brush, LabelList, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { UseApp } from "../../hooks/AppProvider";
-import { colors } from "estilos-lojas-cem";
 import { useRef, useState } from "react";
-import { EmptyDataIcon } from "../../components/svg/EmptyDataIcon/EmptyDataIcon";
-import { ColDef, INumberFilterParams } from "ag-grid-community";
 import moment from "moment";
 import { UseOcorrencias } from "../../hooks/OcorrenciasProvider";
 import clsx from "clsx";
 import { MdWarning, MdTextSnippet } from "react-icons/md";
 import { PiPuzzlePieceFill } from "react-icons/pi";
-import { AgGridReact } from "ag-grid-react";
+import { Grid, HStack, IColumnDef, Text, useTheme, VStack } from "@inovaetech/components-react";
+import { Header } from "../../components/Header";
+import colors from "@inovaetech/components-react/colors";
 
 export const Ocorrencias = (): JSX.Element => {
-  const {
-    brushIndex,
-    countPeca,
-    countSa,
-    countTotal,
-    dataGraph,
-    dataRequested,
-    changeDate,
-    date,
-    dataListPeca,
-    dataListSa,
-    dataRequestedList,
-  } = UseOcorrencias();
+  const { brushIndex, countPeca, countSa, countTotal, dataGraph, dataRequested, changeDate, date, dataListPeca, dataListSa } =
+    UseOcorrencias();
   const gridRef = useRef<any>();
 
-  const { dark } = UseApp();
+  const { isDark: dark } = useTheme();
 
-  const [columnDefsPecas] = useState<ColDef[]>([
+  const [columnDefsPecas] = useState<IColumnDef[]>([
     {
-      field: "seq",
-      sortable: true,
-      headerName: "SEQ",
-      resizable: true,
-      width: 80,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "seq",
+      enableSorting: true,
+      header: "SEQ",
+      enableResizing: true,
+      size: 80,
     },
     {
-      field: "dateCreated",
-      width: 110,
-      sortable: true,
-      headerName: "Data",
-      filter: "agDateColumnFilter",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
-      valueFormatter: (params: any) => {
-        return moment(params.value).utc(false).format("DD/MM/YYYY");
+      accessorKey: "dateCreated",
+      size: 110,
+      enableSorting: true,
+      header: "Data",
+      enableColumnFilter: true,
+      meta: { filterVariant: "date" },
+      enableResizing: true,
+
+      cell: ({ getValue }) => {
+        return moment(String(getValue())).utc(false).format("DD/MM/YYYY");
       },
     },
     {
-      field: "number",
-      width: 130,
-      sortable: true,
-      filter: "agNumberColumnFilter",
-      filterParams: {
-        buttons: ["apply", "reset"],
-        closeOnApply: true,
-      } as INumberFilterParams,
-      headerName: "SA",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "number",
+      size: 130,
+      enableSorting: true,
+      enableColumnFilter: true,
+      meta: { filterVariant: "number" },
+
+      header: "SA",
+      enableResizing: true,
     },
     {
-      field: "local",
-      width: 140,
-      sortable: true,
-      filter: "string",
-      headerName: "Local",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "local",
+      size: 140,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Local",
+      enableResizing: true,
     },
     {
-      field: "reason",
-      width: 140,
-      sortable: true,
-      filter: "text",
-      headerName: "Motivo",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "reason",
+      size: 140,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Motivo",
+      enableResizing: true,
     },
     {
-      field: "stock",
-      width: 100,
-      minWidth: 80,
-      sortable: true,
-      filter: "agNumberColumnFilter",
-      filterParams: {
-        buttons: ["apply", "reset"],
-        closeOnApply: true,
-      } as INumberFilterParams,
-      headerName: "Estoque",
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
-      resizable: true,
+      accessorKey: "stock",
+      size: 100,
+      minSize: 80,
+      enableSorting: true,
+      enableColumnFilter: true,
+      meta: { filterVariant: "number" },
+
+      header: "Estoque",
+
+      enableResizing: true,
     },
     {
-      field: "description",
-      width: 160,
-      sortable: true,
-      filter: "string",
-      headerName: "Peça",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "description",
+      size: 160,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Peça",
+      enableResizing: true,
     },
     {
-      field: "product",
-      width: 100,
-      sortable: true,
-      filter: "string",
-      headerName: "Produto",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "product",
+      size: 100,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Produto",
+      enableResizing: true,
     },
     {
-      field: "address",
-      width: 120,
-      sortable: true,
-      filter: "string",
-      headerName: "Endereço",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "address",
+      size: 120,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Endereço",
+      enableResizing: true,
     },
     {
-      field: "user",
-      width: 140,
-      sortable: true,
-      filter: "string",
-      headerName: "Usuário",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "user",
+      size: 140,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Usuário",
+      enableResizing: true,
     },
     {
-      field: "maq",
-      width: 120,
-      sortable: true,
-      filter: "string",
-      headerName: "Máquina",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "maq",
+      size: 120,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Máquina",
+      enableResizing: true,
     },
     {
-      field: "date",
-      width: 110,
-      sortable: true,
-      filter: "agDateColumnFilter",
-      headerName: "Data alteração",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
-      valueFormatter: (params: any) => {
-        return moment(params.value).utc(false).format("DD/MM/YYYY");
+      accessorKey: "date",
+      size: 110,
+      enableSorting: true,
+      enableColumnFilter: true,
+      meta: { filterVariant: "date" },
+      header: "Data alteração",
+      enableResizing: true,
+      cell: ({ getValue }) => {
+        return moment(String(getValue())).utc(false).format("DD/MM/YYYY");
       },
     },
   ]);
 
-  const [columnDefsSA] = useState<ColDef[]>([
+  const [columnDefsSA] = useState<IColumnDef[]>([
     {
-      field: "seq",
-      sortable: true,
-      headerName: "SEQ",
-      resizable: true,
-      width: 110,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "seq",
+      enableSorting: true,
+      header: "SEQ",
+      enableResizing: true,
+      size: 110,
     },
     {
-      field: "dateCreated",
-      width: 110,
-      sortable: true,
-      filter: "agDateColumnFilter",
-      headerName: "Data",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
-      valueFormatter: (params: any) => {
-        return moment(params.value).utc(false).format("DD/MM/YYYY");
+      accessorKey: "dateCreated",
+      size: 110,
+      enableSorting: true,
+      enableColumnFilter: true,
+      meta: { filterVariant: "date" },
+      header: "Data",
+      enableResizing: true,
+      cell: ({ getValue }) => {
+        return moment(String(getValue())).utc(false).format("DD/MM/YYYY");
       },
     },
 
     {
-      field: "number",
-      width: 130,
-      sortable: true,
-      filter: "agNumberColumnFilter",
-      filterParams: {
-        buttons: ["apply", "reset"],
-        closeOnApply: true,
-      } as INumberFilterParams,
-      headerName: "SA",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "number",
+      size: 130,
+      enableSorting: true,
+      enableColumnFilter: true,
+      meta: { filterVariant: "number" },
+
+      header: "SA",
+      enableResizing: true,
     },
     {
-      field: "store",
-      width: 140,
-      sortable: true,
-      filter: "string",
-      headerName: "Filial",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "store",
+      size: 140,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Filial",
+      enableResizing: true,
     },
     {
-      field: "reason",
-      width: 240,
-      sortable: true,
-      filter: "text",
-      headerName: "Motivo",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "reason",
+      size: 240,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Motivo",
+      enableResizing: true,
     },
     {
-      field: "user",
-      width: 140,
-      sortable: true,
-      filter: "string",
-      headerName: "Usuário",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "user",
+      size: 140,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Usuário",
+      enableResizing: true,
     },
     {
-      field: "maq",
-      width: 120,
-      sortable: true,
-      filter: "string",
-      headerName: "Máquina",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "maq",
+      size: 120,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Máquina",
+      enableResizing: true,
     },
     {
-      field: "date",
-      width: 130,
-      sortable: true,
-      filter: "agDateColumnFilter",
-      headerName: "Data alteração",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
-      valueFormatter: (params: any) => {
-        return moment(params.value).utc(false).format("DD/MM/YYYY");
+      accessorKey: "date",
+      size: 130,
+      enableSorting: true,
+      enableColumnFilter: true,
+      meta: { filterVariant: "date" },
+      header: "Data alteração",
+      enableResizing: true,
+      cell: ({ getValue }) => {
+        return moment(String(getValue())).utc(false).format("DD/MM/YYYY");
       },
     },
   ]);
@@ -269,74 +215,75 @@ export const Ocorrencias = (): JSX.Element => {
   }, [dataListSa, date]);
 
   return (
-    <Header title="Ocorrências sem soluções">
-      <Row height="100px" width="100%" className="mb-4 flex-nowrap" horizontal="space-around">
-        <Row
-          bg="00"
-          width={"17%"}
-          height="70px"
-          vertical="center"
-          horizontal="center"
+    <main className="h-full w-full">
+      <Header title="Ocorrências sem soluções"> </Header>
+      <Row height="100px" width="100%" className="mb-4 flex-nowrap mt-4" horizontal="space-around">
+        <HStack
+          bg="surface"
+          justifyContent="center"
+          alignItems="center"
           onClick={() => {
             changeDate(undefined);
           }}
-          className={"min-w-[90px] w-1/6 max-mobile:w-[10%] cursor-pointer p-2 px-4 rounded-lg shadow-md max-tablet:p-0"}
+          className={
+            "min-w-[90px] h-[70]px w-1/6 max-mobile:!w-[10%] cursor-pointer p-2 px-4 rounded-lg shadow-md max-tablet:!p-0"
+          }
         >
-          <Row height={"100%"} width={"30%"} vertical="center" horizontal="center" className="max-tablet:hidden">
+          <Row height={"100%"} width={"30%"} vertical="center" horizontal="center" className="max-tablet:!hidden">
             <MdWarning className="dark:text-neutral-light-s00" size={35} />
           </Row>
-          <Column width="70%" vertical="center" className="items-end max-tablet:items-center max-tablet:w-full">
-            <Text asChild fontSize="lg" weight="900" align="center">
-              <h1>{countTotal}</h1>
+          <VStack className="w-[70%] items-end max-tablet:!items-center max-tablet:!w-full">
+            <Text size="lg" weight="bold" color="default" className="text-center">
+              {countTotal}
             </Text>
-            <Text asChild fontSize="md" color="medium" weight="600" className="max-mobile:text-sm">
-              <h1>TOTAL</h1>
+            <Text size="lg" color="contentPrimary" weight="normal" className="max-mobile:!text-sm">
+              TOTAL
             </Text>
-          </Column>
-        </Row>
-        <Row
-          bg="00"
-          width={"17%"}
-          height="70px"
-          vertical="center"
-          horizontal="center"
-          className={"min-w-[90px] w-1/6 max-mobile:w-[10%] cursor-pointer p-2 px-4 rounded-lg shadow-md max-tablet:p-0"}
+          </VStack>
+        </HStack>
+        <HStack
+          bg="surface"
+          justifyContent="center"
+          alignItems="center"
+          className={
+            "min-w-[90px] h-[70]px w-1/6 max-mobile:!w-[10%] cursor-pointer p-2 px-4 rounded-lg shadow-md max-tablet:!p-0"
+          }
         >
-          <Row height={"100%"} width={"30%"} vertical="center" horizontal="center" className="max-tablet:hidden">
+          <Row height={"100%"} width={"30%"} vertical="center" horizontal="center" className="max-tablet:!hidden">
             <MdTextSnippet className="dark:text-neutral-light-s00" size={35} />
           </Row>
-          <Column width="70%" vertical="center" className="items-end max-tablet:items-center max-tablet:w-full">
-            <Text asChild fontSize="lg" weight="900" align="center">
-              <h1>{countSa}</h1>
+          <VStack className="w-[70%] items-end max-tablet:!items-center max-tablet:!w-full">
+            <Text size="lg" weight="bold" color="default" className="text-center">
+              {countSa}
             </Text>
-            <Text asChild fontSize="md" color="medium" weight="600" className="max-mobile:text-sm">
-              <h1>SAs</h1>
+            <Text size="lg" color="contentPrimary" weight="normal" className="max-mobile:!text-sm">
+              SAs
             </Text>
-          </Column>
-        </Row>
-        <Row
-          bg="00"
-          width={"17%"}
-          height="70px"
-          vertical="center"
-          horizontal="center"
-          className={"min-w-[90px] w-1/6 max-mobile:w-[10%] cursor-pointer p-2 px-4 rounded-lg shadow-md max-tablet:p-0"}
+          </VStack>
+        </HStack>
+        <HStack
+          bg="surface"
+          justifyContent="center"
+          alignItems="center"
+          className={
+            "min-w-[90px] h-[70]px w-1/6 max-mobile:!w-[10%] cursor-pointer p-2 px-4 rounded-lg shadow-md max-tablet:!p-0"
+          }
         >
-          <Row height={"100%"} width={"30%"} vertical="center" horizontal="center" className="max-tablet:hidden">
+          <Row height={"100%"} width={"30%"} vertical="center" horizontal="center" className="max-tablet:!hidden">
             <PiPuzzlePieceFill className="dark:text-neutral-light-s00" size={35} />
           </Row>
-          <Column width="70%" vertical="center" className="items-end max-tablet:items-center max-tablet:w-full">
-            <Text asChild fontSize="lg" weight="900" align="center">
-              <h1>{countPeca}</h1>
+          <VStack className="w-[70%] items-end max-tablet:!items-center max-tablet:!w-full">
+            <Text size="lg" weight="bold" color="default" className="text-center">
+              {countPeca}
             </Text>
-            <Text asChild fontSize="md" color="medium" weight="600" className="max-mobile:text-sm">
-              <h1>PEÇAS</h1>
+            <Text size="lg" color="contentPrimary" weight="normal" className="max-mobile:!text-sm">
+              PEÇAS
             </Text>
-          </Column>
-        </Row>
+          </VStack>
+        </HStack>
       </Row>
 
-      <Row width="95%" height="250px" bg="00" id="barchart" className={"rounded-lg shadow-lg"}>
+      <HStack bg="surface" id="barchart" className={"w-full h-[250px] rounded-lg shadow-lg"}>
         <ResponsiveContainer width="100%" height="100%" minWidth={"200px"}>
           <BarChart
             style={{ opacity: dataRequested?.isFetching ? 0.4 : 1 }}
@@ -416,56 +363,52 @@ export const Ocorrencias = (): JSX.Element => {
               content={(value) => {
                 if (!value || !value.payload || !value.payload[1]) return;
                 return (
-                  <Column bg="10" className="py-4 px-4 rounded-lg shadow-2xl">
-                    <Text asChild fontSize="md" weight="900" spacingBottom="xs">
-                      <h1>{moment(value.payload[0].payload.date).utc(false).format("DD/MM/YYYY")}</h1>
+                  <VStack bg="background" className="py-4 px-4 rounded-lg shadow-2xl">
+                    <Text color="default" size="md" weight="bold" className="mb-1">
+                      {moment(value.payload[0].payload.date).utc(false).format("DD/MM/YYYY")}
                     </Text>
                     <Row>
                       <Text
-                        asChild
-                        fontSize="sm"
-                        weight="600"
+                        weight="medium"
                         className={clsx("mr-1", Number(value.payload[0].payload.days) >= 15 ? "text-error-s080" : "")}
                       >
-                        <h1>{value.payload[0].payload.days}</h1>
+                        {value.payload[0].payload.days}
                       </Text>
                       <Text
-                        asChild
-                        fontSize="sm"
-                        weight="600"
+                        weight="medium"
                         className={clsx(Number(value.payload[0].payload.days) >= 15 ? "text-error-s080" : "")}
                       >
-                        <h1>DIAS</h1>
+                        DIAS
                       </Text>
                     </Row>
 
                     <Row>
-                      <Text asChild fontSize="sm" weight="600" className="mr-2 text-neutral-dark-s10 dark:text-neutral-light-s10">
-                        <h1>TOTAL: </h1>
+                      <Text weight="medium" className="mr-2 text-neutral-dark-s10 dark:text-neutral-light-s10">
+                        TOTAL:
                       </Text>
-                      <Text asChild fontSize="sm" weight="600" className="text-neutral-dark-s10 dark:text-neutral-light-s10">
-                        <h1>{value.payload[0].payload.total}</h1>
-                      </Text>
-                    </Row>
-
-                    <Row>
-                      <Text asChild fontSize="sm" weight="600" className="mr-2 text-primary-s120 dark:text-primary-s080">
-                        <h1>SA: </h1>
-                      </Text>
-                      <Text asChild fontSize="sm" weight="600" className="text-primary-s120 dark:text-primary-s080">
-                        <h1>{value.payload[0].value}</h1>
+                      <Text weight="medium" className="text-neutral-dark-s10 dark:text-neutral-light-s10">
+                        {value.payload[0].payload.total}
                       </Text>
                     </Row>
 
                     <Row>
-                      <Text asChild fontSize="sm" weight="600" className="mr-2 text-primary-s100 dark:text-primary-s080">
-                        <h1>PEÇAS: </h1>
+                      <Text weight="medium" className="mr-2 text-primary-s120 dark:text-primary-s080">
+                        SA:
                       </Text>
-                      <Text asChild fontSize="sm" weight="600" className="text-primary-s100 dark:text-primary-s080">
-                        <h1>{value.payload[1].value}</h1>
+                      <Text weight="medium" className="text-primary-s120 dark:text-primary-s080">
+                        {value.payload[0].value}
                       </Text>
                     </Row>
-                  </Column>
+
+                    <Row>
+                      <Text weight="medium" className="mr-2 text-primary-s100 dark:text-primary-s080">
+                        PEÇAS:
+                      </Text>
+                      <Text weight="medium" className="text-primary-s100 dark:text-primary-s080">
+                        {value.payload[1].value}
+                      </Text>
+                    </Row>
+                  </VStack>
                 );
               }}
               contentStyle={{
@@ -481,12 +424,12 @@ export const Ocorrencias = (): JSX.Element => {
                 cursor: "pointer",
               }}
               cursor={{
-                fill: dark ? "#bbb" : `${colors.primary.s100}10`,
+                fill: dark ? "#bbb" : `${colors.primary[400]}10`,
               }}
             />
             <Legend verticalAlign="top" wrapperStyle={{ lineHeight: "40px" }} />
             {brushIndex > 0 && (
-              <Brush startIndex={0} endIndex={brushIndex} dataKey={"dateString"} height={20} stroke={colors.primary.s080}>
+              <Brush startIndex={0} endIndex={brushIndex} dataKey={"dateString"} height={20} stroke={colors.primary[400]}>
                 <AreaChart>
                   <Area
                     type="natural"
@@ -494,9 +437,9 @@ export const Ocorrencias = (): JSX.Element => {
                     dataKey="peca"
                     name="PEÇA"
                     fillOpacity={1}
-                    fill={`${colors.primary.s010}`}
+                    fill={`${colors.primary[200]}`}
                   />
-                  <Area type="natural" stroke="#ff000010" dataKey="sa" name="SA" fill={`${colors.primary.s100}`} />
+                  <Area type="natural" stroke="#ff000010" dataKey="sa" name="SA" fill={`${colors.primary[600]}`} />
                 </AreaChart>
               </Brush>
             )}
@@ -510,7 +453,7 @@ export const Ocorrencias = (): JSX.Element => {
               }}
               dataKey="sa"
               name="SA"
-              fill={colors.primary.s120}
+              fill={colors.primary[600]}
             />
 
             <Bar
@@ -523,7 +466,7 @@ export const Ocorrencias = (): JSX.Element => {
               }}
               dataKey="peca"
               name="PEÇA"
-              fill={colors.primary.s080}
+              fill={colors.primary[400]}
             >
               <LabelList
                 dataKey="total"
@@ -556,94 +499,35 @@ export const Ocorrencias = (): JSX.Element => {
             </Bar>
           </BarChart>
         </ResponsiveContainer>
-      </Row>
+      </HStack>
       {dataListPeca && dataListPeca.length >= 1 && (
         <>
           <Row height="20px" width="200px" />
-          <Row width="95%" horizontal="flex-start">
-            <Text fontSize="xl" weight="600" asChild align="left">
-              <h1>Peças:</h1>
+          <Row width="100%" horizontal="flex-start">
+            <Text color="default" size="xl" weight="medium" className="text-left">
+              Peças:
             </Text>
           </Row>
 
-          <div
-            className={clsx(
-              dark ? "ag-theme-alpine-dark" : "ag-theme-alpine",
-              "ag-theme-alpine shadow-lg rounded-2xl overflow-hidden mt-4 relative bg-primary-s010",
-              dataRequestedList?.isFetching && "opacity-30"
-            )}
-            style={{ height: "250px", width: "95%" }}
-          >
-            <AgGridReact
-              noRowsOverlayComponent={() => {
-                return (
-                  <Column horizontal="center">
-                    <EmptyDataIcon size={60} />
-                    <Text spacingTop="md" fontSize="lg">
-                      Selecionar Data
-                    </Text>
-                  </Column>
-                );
-              }}
-              getRowHeight={() => {
-                return 22;
-              }}
-              animateRows={true}
-              suppressCellFocus={false}
-              headerHeight={40}
-              rowClass={"cursor-pointer"}
-              rowHeight={30}
-              rowSelection="single"
-              rowData={dataListPeca}
-              columnDefs={columnDefsPecas}
-            />
+          <div style={{ height: "300px", width: "100%" }}>
+            <Grid classNames={{ inner: "max-h-[300px] min-h-[300px]" }} data={dataListPeca} columns={columnDefsPecas} />
           </div>
         </>
       )}
       {dataListSa && dataListSa.length >= 1 && (
         <>
           <Row height="20px" width="200px" />
-          <Row width="95%" horizontal="flex-start">
-            <Text fontSize="xl" weight="600" asChild align="left">
-              <h1>SAs:</h1>
+          <Row width="100%" horizontal="flex-start">
+            <Text color="default" size="xl" weight="medium" className="text-left">
+              SAs:
             </Text>
           </Row>
-          <div
-            className={clsx(
-              dataRequestedList?.isFetching && "opacity-30",
-              dark ? "ag-theme-alpine-dark" : "ag-theme-alpine",
-              "ag-theme-alpine shadow-lg rounded-2xl overflow-hidden mt-4 relative bg-primary-s010"
-            )}
-            style={{ height: "250px", width: "95%" }}
-          >
-            <AgGridReact
-              ref={gridRef}
-              noRowsOverlayComponent={() => {
-                return (
-                  <Column horizontal="center">
-                    <EmptyDataIcon size={60} />
-                    <Text spacingTop="md" fontSize="lg">
-                      Selecionar Data
-                    </Text>
-                  </Column>
-                );
-              }}
-              getRowHeight={() => {
-                return 22;
-              }}
-              animateRows={true}
-              suppressCellFocus={false}
-              headerHeight={40}
-              rowClass={"cursor-pointer"}
-              rowHeight={30}
-              rowSelection="single"
-              rowData={dataListSa}
-              columnDefs={columnDefsSA}
-            />
+          <div style={{ height: "300px", width: "100%" }}>
+            <Grid classNames={{ inner: "max-h-[300px] min-h-[300px]" }} data={dataListSa} columns={columnDefsSA} />
           </div>
         </>
       )}
       <Row height="100px" width="200px" />
-    </Header>
+    </main>
   );
 };

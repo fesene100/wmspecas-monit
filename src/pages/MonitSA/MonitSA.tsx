@@ -1,23 +1,17 @@
-import { Button, Column, Row, Text } from "componentes-web-lojas-cem";
+import { Row } from "componentes-web-lojas-cem";
 import { Card } from "../../components/Card/Card";
-import { MdSearch } from "react-icons/md";
-import { Header } from "../Header/Header";
 import { Area, AreaChart, Bar, BarChart, Brush, LabelList, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { UseApp } from "../../hooks/AppProvider";
-import { colors } from "estilos-lojas-cem";
 import { UseMonitSa } from "../../hooks/MonitSaProvider";
 import { useNavigate } from "react-router-dom";
-import clsx from "clsx";
-import { AgGridReact } from "ag-grid-react";
 import { useRef, useState } from "react";
-import { EmptyDataIcon } from "../../components/svg/EmptyDataIcon/EmptyDataIcon";
-import { ColDef, INumberFilterParams } from "ag-grid-community";
-import React from "react";
 import moment from "moment";
 import { serviceProduto } from "../../repository/contagem";
 import Swal from "sweetalert2";
 import { Toast } from "../../components/Toast/Toast";
 import DatePicker from "react-datepicker";
+import { Button, Grid, HStack, IColumnDef, Text, useTheme, VStack } from "@inovaetech/components-react";
+import { Header } from "../../components/Header";
+import colors from "@inovaetech/components-react/colors";
 
 export const MonitSA = (): JSX.Element => {
   const {
@@ -38,107 +32,82 @@ export const MonitSA = (): JSX.Element => {
   const navigate = useNavigate();
   const gridRef = useRef<any>();
 
-  const { dark } = UseApp();
+  const { isDark: dark } = useTheme();
 
-  const [columnDefs] = useState<ColDef[]>([
+  const [columnDefs] = useState<IColumnDef[]>([
     {
-      field: "number",
-      sortable: true,
-      headerName: "SA",
-      resizable: true,
-      minWidth: 90,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "number",
+      enableSorting: true,
+      header: "SA",
+      enableResizing: true,
+      minSize: 90,
     },
     {
-      field: "operationName",
-      minWidth: 80,
-      sortable: true,
-      filter: "string",
-      headerName: "Operação",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "operationName",
+      minSize: 80,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Operação",
+      enableResizing: true,
     },
     {
-      field: "statusName",
-      minWidth: 90,
-      sortable: true,
-      filter: "agNumberColumnFilter",
-      filterParams: {
-        buttons: ["apply", "reset"],
-        closeOnApply: true,
-      } as INumberFilterParams,
-      headerName: "Status",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "statusName",
+      minSize: 90,
+      enableSorting: true,
+      enableColumnFilter: true,
+      meta: { filterVariant: "date" },
+      header: "Status",
+      enableResizing: true,
     },
     {
-      field: "code",
-      minWidth: 90,
-      sortable: true,
-      filter: "text",
-      headerName: "Código Base",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "code",
+      minSize: 90,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Código Base",
+      enableResizing: true,
     },
     {
-      field: "destinyName",
-      width: 120,
-      minWidth: 80,
-      sortable: true,
-      filter: "string",
-      headerName: "Destino",
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
-      resizable: true,
+      accessorKey: "destinyName",
+      size: 120,
+      minSize: 80,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Destino",
+
+      enableResizing: true,
     },
     {
-      field: "branch",
-      minWidth: 60,
-      sortable: true,
-      filter: "agNumberColumnFilter",
-      filterParams: {
-        buttons: ["apply", "reset"],
-        closeOnApply: true,
-      } as INumberFilterParams,
-      headerName: "Filial",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "branch",
+      minSize: 60,
+      enableSorting: true,
+      enableColumnFilter: true,
+      meta: { filterVariant: "number" },
+      header: "Filial",
+      enableResizing: true,
     },
     {
-      field: "data",
-      minWidth: 80,
-      sortable: true,
-      filter: "agDateColumnFilter",
-      headerName: "Data",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
-      valueFormatter: (params: any) => {
-        return moment(params.value).utc(false).format("DD/MM/YYYY");
+      accessorKey: "data",
+      minSize: 80,
+      enableSorting: true,
+      enableColumnFilter: true,
+      meta: { filterVariant: "date" },
+      header: "Data",
+      enableResizing: true,
+
+      cell: ({ getValue }) => {
+        return moment(String(getValue())).utc(false).format("DD/MM/YYYY");
       },
     },
   ]);
 
-  React.useEffect(() => {
-    if (gridRef.current && gridRef.current.api) {
-      gridRef.current.api.sizeColumnsToFit();
-    }
-  }, [dataList, service]);
-
   return (
-    <Header title="Monitoramento SA Peças">
-      <Row width="95%" className="mb-4 content-around" horizontal="center">
-        <Column
-          horizontal="center"
-          className="bg-neutral-light-s00 dark:text-neutral-light-s00 dark:bg-neutral-dark-s00 p-4 rounded-xl shadow-md mx-5"
-        >
-          <Text asChild upperCase fontSize="md" weight="600">
-            <h1>Data</h1>
+    <main className="h-full w-full">
+      <Header title="Monitoramento SA Peças"></Header>
+      <Row width="100%" className="mb-4 content-around mt-4" horizontal="center">
+        <VStack bg="surface" alignItems="center" className="dark:text-neutral-light-s00 p-4 rounded-xl shadow-md mx-5">
+          <Text size="lg" weight="bold" color="default">
+            Data
           </Text>
           <DatePicker
             showIcon
@@ -158,19 +127,18 @@ export const MonitSA = (): JSX.Element => {
               changeDate(moment(date).format("YYYY-MM-DD"));
             }}
           />
-        </Column>
+        </VStack>
 
         <Button
-          disabled={dataRequested?.isFetching ? true : false}
-          onClick={() => {
+          isDisabled={dataRequested?.isFetching ? true : false}
+          onPress={() => {
             dataRequested?.refetch();
           }}
+          color="primary"
           className="font-bold max-mobile:mt-4"
+          leftIcon="MdSearch"
         >
-          <Row>
-            <MdSearch size={20} className="mr-1" />
-            Pesquisar
-          </Row>
+          Pesquisar
         </Button>
       </Row>
       <Row height="100px" width="100%" className="mb-4 flex-nowrap" horizontal="space-around">
@@ -180,7 +148,7 @@ export const MonitSA = (): JSX.Element => {
         <Card icon={{ kind: "check", size: 30 }} name="Finalizados" quantidade={countFim} />
       </Row>
 
-      <Row width="95%" height="300px" bg="00" id="barchart" className={"rounded-lg shadow-lg"}>
+      <HStack bg="surface" id="barchart" className={"w-full h-[300px] rounded-lg shadow-lg"}>
         <ResponsiveContainer width="100%" height="100%" minWidth={"200px"}>
           <BarChart
             style={{ opacity: dataRequested?.isFetching ? 0.4 : 1 }}
@@ -217,8 +185,8 @@ export const MonitSA = (): JSX.Element => {
                         finded?.departamentNumber == 1 && finded.statusNumber == 1
                           ? "fill-error-s100"
                           : finded?.departamentNumber == 2 && finded.statusNumber == 2
-                          ? "fill-attention-s100"
-                          : "fill-none"
+                            ? "fill-attention-s100"
+                            : "fill-none"
                       }
                     />
                     <text
@@ -232,8 +200,8 @@ export const MonitSA = (): JSX.Element => {
                         finded?.departamentNumber == 1 && finded.statusNumber == 1
                           ? 800
                           : finded?.departamentNumber == 2 && finded.statusNumber == 2
-                          ? 800
-                          : 400
+                            ? 800
+                            : 400
                       }
                       className={"fill-neutral-dark-s00 dark:fill-neutral-light-s00"}
                       textAnchor="middle"
@@ -263,53 +231,53 @@ export const MonitSA = (): JSX.Element => {
                 if (!value.payload[1]) return;
 
                 return (
-                  <Column bg="10" className="py-4 px-4 rounded-lg shadow-2xl">
-                    <Text asChild fontSize="md" weight="900" spacingBottom="xs">
-                      <h1>{value.label}</h1>
+                  <VStack bg="surface" className="py-4 px-4 rounded-lg shadow-2xl">
+                    <Text size="md" weight="bold" color="default">
+                      {value.label}
                     </Text>
                     <Row>
-                      <Text asChild fontSize="sm" weight="600" className="mr-1">
-                        <h1>{value.payload[0].payload.status}</h1>
+                      <Text size="sm" weight="medium" className="mr-1">
+                        {value.payload[0].payload.status}
                       </Text>
-                      <Text asChild fontSize="sm" weight="600">
-                        <h1>{value.payload[0].payload.departament}</h1>
-                      </Text>
-                    </Row>
-
-                    <Row>
-                      <Text asChild fontSize="sm" weight="600" className="mr-2 text-attention-s120 dark:text-attention-s080">
-                        <h1>Executando: </h1>
-                      </Text>
-                      <Text asChild fontSize="sm" weight="600" className="text-attention-s120 dark:text-attention-s080">
-                        <h1>{value.payload[0].value}</h1>
+                      <Text size="sm" weight="medium">
+                        {value.payload[0].payload.departament}
                       </Text>
                     </Row>
 
                     <Row>
-                      <Text asChild fontSize="sm" weight="600" className="mr-2 text-error-s100 dark:text-error-s080">
-                        <h1>Pendente: </h1>
+                      <Text size="sm" weight="medium" className="mr-2 text-attention-s120 dark:text-attention-s080">
+                        Executando:
                       </Text>
-                      <Text asChild fontSize="sm" weight="600" className="text-error-s100 dark:text-error-s080">
-                        <h1>{value.payload[1].value}</h1>
+                      <Text size="sm" weight="medium" className="text-attention-s120 dark:text-attention-s080">
+                        {value.payload[0].value}
+                      </Text>
+                    </Row>
+
+                    <Row>
+                      <Text size="sm" weight="medium" className="mr-2 text-error-s100 dark:text-error-s080">
+                        Pendente:
+                      </Text>
+                      <Text size="sm" weight="medium" className="text-error-s100 dark:text-error-s080">
+                        {value.payload[1].value}
                       </Text>
                     </Row>
                     <Row>
-                      <Text asChild fontSize="sm" weight="600" className="mr-2 text-success-s100 dark:text-success-s080">
-                        <h1>Finalizado: </h1>
+                      <Text size="sm" weight="medium" className="mr-2 text-success-s100 dark:text-success-s080">
+                        Finalizado:
                       </Text>
-                      <Text asChild fontSize="sm" weight="600" className="text-success-s100 dark:text-success-s080">
-                        <h1>{value.payload[2].value}</h1>
+                      <Text size="sm" weight="medium" className="text-success-s100 dark:text-success-s080">
+                        {value.payload[2].value}
                       </Text>
                     </Row>
                     <Row>
-                      <Text asChild fontSize="sm" weight="600" className="mr-2 text-primary-s100 dark:text-primary-s080">
-                        <h1>Total: </h1>
+                      <Text size="sm" weight="medium" className="mr-2 text-primary-s100 dark:text-primary-s080">
+                        Total:
                       </Text>
-                      <Text asChild fontSize="sm" weight="600" className="text-primary-s100 dark:text-primary-s080">
-                        <h1>{value.payload[3].value}</h1>
+                      <Text size="sm" weight="medium" className="text-primary-s100 dark:text-primary-s080">
+                        {value.payload[3].value}
                       </Text>
                     </Row>
-                  </Column>
+                  </VStack>
                 );
               }}
               contentStyle={{
@@ -325,12 +293,12 @@ export const MonitSA = (): JSX.Element => {
                 cursor: "pointer",
               }}
               cursor={{
-                fill: dark ? "#bbb" : `${colors.primary.s100}20`,
+                fill: dark ? "#bbb" : `${colors.primary[500]}20`,
               }}
             />
             <Legend verticalAlign="top" wrapperStyle={{ lineHeight: "40px" }} />
             {brushIndex > 0 && (
-              <Brush startIndex={0} endIndex={brushIndex} dataKey={"rua"} height={20} stroke={colors.primary.s080}>
+              <Brush startIndex={0} endIndex={brushIndex} dataKey={"rua"} height={20} stroke={colors.primary[400]}>
                 <AreaChart>
                   <Area
                     type="natural"
@@ -338,29 +306,29 @@ export const MonitSA = (): JSX.Element => {
                     dataKey="countPending"
                     name="Contado"
                     fillOpacity={1}
-                    fill={`${colors.error.s100}`}
+                    fill={`${colors.error[400]}`}
                   />
                   <Area
                     type="natural"
                     stroke="#00ff0010"
                     dataKey="countFinished"
                     name="Contado"
-                    fill={`${colors.success.s100}`}
+                    fill={`${colors.success[400]}`}
                   />
                   <Area
                     type="natural"
                     stroke="#ffff2220"
                     dataKey="countExecuting"
                     name="Contado"
-                    fill={`${colors.attention.s100}`}
+                    fill={`${colors.warning[400]}`}
                   />
 
                   <Area
                     type="natural"
-                    stroke={colors.primary.s100}
+                    stroke={colors.primary[400]}
                     dataKey="total"
                     name="Total"
-                    fill={`${colors.primary.s080}30`}
+                    fill={`${colors.primary[400]}30`}
                   />
                 </AreaChart>
               </Brush>
@@ -389,7 +357,7 @@ export const MonitSA = (): JSX.Element => {
               }}
               dataKey="countPending"
               name="Pendente"
-              fill={colors.error.s080}
+              fill={colors.error[500]}
             >
               <LabelList
                 dataKey="countPending"
@@ -432,7 +400,7 @@ export const MonitSA = (): JSX.Element => {
               barSize={5}
               dataKey=""
               name=""
-              fill={dark ? colors.neutral.dark.s00 : colors.neutral.light.s00}
+              fill={dark ? colors.dark[700] : "#fff"}
               opacity={0}
             />
 
@@ -445,7 +413,7 @@ export const MonitSA = (): JSX.Element => {
               }}
               dataKey="countFinished"
               name="Finalizado"
-              fill={colors.success.s080}
+              fill={colors.success[400]}
             />
 
             <Bar
@@ -457,7 +425,7 @@ export const MonitSA = (): JSX.Element => {
               barSize={5}
               dataKey=""
               name=""
-              fill={dark ? colors.neutral.dark.s00 : colors.neutral.light.s00}
+              fill={dark ? colors.dark[700] : "#fff"}
               opacity={0}
             />
 
@@ -470,67 +438,47 @@ export const MonitSA = (): JSX.Element => {
               }}
               dataKey="countTotal"
               name="Total"
-              fill={colors.primary.s080}
+              fill={colors.primary[400]}
             />
           </BarChart>
         </ResponsiveContainer>
-      </Row>
+      </HStack>
       <Row height="20px" width="200px" />
       {service && (
-        <Row width="95%" horizontal="center">
-          <Text fontSize="xl" asChild>
-            <h1>Protocolo: {service}</h1>
+        <Row width="100%" horizontal="center">
+          <Text color="default" weight="medium" size="xl" className=" my-2">
+            Protocolo: {service}
           </Text>
         </Row>
       )}
-      <div
-        className={clsx(
-          dark ? "ag-theme-alpine-dark" : "ag-theme-alpine",
-          "ag-theme-alpine shadow-lg rounded-2xl overflow-hidden mt-4 relative bg-primary-s010"
+      <div style={{ height: "350px", width: "100%" }}>
+        {dataList && dataList.length > 0 ? (
+          <Grid
+            ref={gridRef}
+            classNames={{ inner: "max-h-[350px] min-h-[350px]" }}
+            onClickRow={async ({ row }: any) => {
+              const consulta = await serviceProduto(row.code);
+              if (consulta && consulta[0]) {
+                Swal.fire({
+                  confirmButtonColor: colors.primary[400],
+                  title: String(consulta[0].ITE_COD_BASE_DESC),
+                });
+              } else {
+                Toast.fire({
+                  icon: "error",
+                  title: `Produto não encontrado`,
+                });
+              }
+            }}
+            data={dataList}
+            columns={columnDefs}
+          />
+        ) : (
+          <></>
         )}
-        style={{ height: "350px", width: "95%" }}
-      >
-        <AgGridReact
-          ref={gridRef}
-          noRowsOverlayComponent={() => {
-            return (
-              <Column horizontal="center">
-                <EmptyDataIcon size={60} />
-                <Text spacingTop="md" fontSize="lg">
-                  Selecionar protocolo de serviço
-                </Text>
-              </Column>
-            );
-          }}
-          getRowHeight={() => {
-            return 22;
-          }}
-          animateRows={true}
-          suppressCellFocus={false}
-          headerHeight={40}
-          rowClass={"cursor-pointer"}
-          onRowClicked={async (value) => {
-            const consulta = await serviceProduto(value.data.code);
-            if (consulta && consulta[0]) {
-              Swal.fire({
-                confirmButtonColor: colors.primary.s100,
-                title: String(consulta[0].ITE_COD_BASE_DESC),
-              });
-            } else {
-              Toast.fire({
-                icon: "error",
-                title: `Produto não encontrado`,
-              });
-            }
-          }}
-          rowHeight={30}
-          rowSelection="single"
-          rowData={dataList}
-          columnDefs={columnDefs}
-        />
       </div>
 
       <Row height="100px" width="200px" />
-    </Header>
+    </main>
   );
 };

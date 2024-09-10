@@ -1,20 +1,20 @@
-import { Button, Column, Row, Text } from "componentes-web-lojas-cem";
 import { Graph } from "../../components/Graph/Graph";
 import { UseMonit, optionsRuas } from "../../hooks/MonitProvider";
 import { Card } from "../../components/Card/Card";
-import { SelectComponent } from "../../components/SelectComponent/SelectComponent";
-import { MdSearch } from "react-icons/md";
 import { ListMonit } from "./ListMonit";
 import { ListOcor } from "./ListOcor";
-import { Header } from "../Header/Header";
+import { Header } from "../../components/Header";
+import { Button, HStack, SelectField, SelectMultiple } from "@inovaetech/components-react";
+import { IOptions } from "../../interfaces/IOptions";
 
 export const Monitpage = (): JSX.Element => {
   const { exec, fim, lib, ocor, grupos, changeSelectGrupos, changeSelectRua, selectGrupos, selectRua, servicosGrafico } =
     UseMonit();
 
   return (
-    <Header title="Monitoramento Contagem Peças">
-      <Row height="100px" width="95%" className="mb-4 flex-nowrap" horizontal="space-around">
+    <main className="h-full w-full">
+      <Header title="Monitoramento Contagem Peças"> </Header>
+      <HStack className="w-full h-[100px] mb-2 mt-4" justifyContent="around">
         <Card
           icon={{ kind: "working", size: 35 }}
           name="Executando"
@@ -47,62 +47,76 @@ export const Monitpage = (): JSX.Element => {
             changeSelectRua({ label: "Finalizados", value: "4" });
           }}
         />
-      </Row>
+      </HStack>
 
-      <Row width="95%" className="mb-4 content-around" horizontal="space-around">
-        <SelectComponent
-          isMulti={true}
-          isClearable={false}
+      <HStack className="w-full mb-4 content-around flex-nowrap max-mobile:!flex-col max-mobile:!gap-2" justifyContent="around">
+        <SelectMultiple
           onChange={(value) => {
-            changeSelectGrupos(value);
+            const newSelected: IOptions[] = [];
+            value.map((val) => {
+              const finded = grupos.find((grupos) => grupos.value == val);
+              if (finded) {
+                newSelected.push(finded);
+              }
+            });
+            // const finded = optionsRuas.find((a) => a.value == value);
+            changeSelectGrupos(newSelected);
           }}
-          value={selectGrupos}
-          options={grupos}
-          className={"selectGrupo pb-2"}
+          selectedKeys={selectGrupos.map((val) => String(val.value))}
           placeholder={"GRUPO"}
-        />
-        <SelectComponent
-          onChange={(value) => {
-            changeSelectRua(value);
+          className="w-48 max-mobile:!w-full"
+          elevated
+        >
+          {grupos.map((val) => (
+            <SelectMultiple.Option key={val.value}>{val.label}</SelectMultiple.Option>
+          ))}
+        </SelectMultiple>
+        <SelectField
+          onSelectionChange={(value) => {
+            const finded = optionsRuas.find((a) => a.value == value);
+            changeSelectRua(finded);
           }}
-          isClearable={true}
-          value={selectRua}
-          options={optionsRuas}
-          className={"selectRua pb-2"}
+          selectedKey={selectRua?.value}
           placeholder={"RUAS"}
-        />
+          className="w-48 max-mobile:!w-full"
+          elevated
+        >
+          {optionsRuas.map((val) => (
+            <SelectField.Option key={val.value}>{val.label}</SelectField.Option>
+          ))}
+        </SelectField>
         <Button
-          onClick={() => {
+          onPress={() => {
             changeSelectGrupos([]);
             changeSelectRua(undefined);
           }}
           color="error"
-          kind="ghost"
-          size="small"
-          className="font-bold"
+          variant="outline"
+          className="font-bold max-mobile:!w-full"
+          leftIcon="PiFunnelX"
         >
-          LIMPAR
+          Limpar
         </Button>
+
         <Button
-          disabled={servicosGrafico?.isFetching ? true : false}
-          onClick={() => {
+          isDisabled={servicosGrafico?.isFetching ? true : false}
+          onPress={() => {
             servicosGrafico?.refetch();
           }}
-          className="font-bold"
+          className="font-bold max-mobile:!w-full"
+          leftIcon="MdSearch"
+          color="primary"
         >
-          <Row>
-            <MdSearch size={20} className="mr-1" />
-            Pesquisar
-          </Row>
+          Pesquisar
         </Button>
-      </Row>
+      </HStack>
 
       <Graph />
-      <Row height="20px" width="200px" />
+      <HStack className="h-[20px] w-[200px]" />
       <ListMonit />
-      <Row height="20px" width="200px" />
+      <HStack className="h-[20px] w-[200px]" />
       <ListOcor />
-      <Row height="100px" width="200px" />
-    </Header>
+      <HStack className="h-[100px] w-[200px]" />
+    </main>
   );
 };

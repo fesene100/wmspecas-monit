@@ -1,117 +1,64 @@
-import React, { useEffect, useRef, useState } from "react";
-import clsx from "clsx";
-import { UseApp } from "../../hooks/AppProvider";
-import { AgGridReact } from "ag-grid-react";
-import { ColDef, INumberFilterParams } from "ag-grid-community";
-import { Column, Text } from "componentes-web-lojas-cem";
+import React, { useState } from "react";
 import { UseMonit } from "../../hooks/MonitProvider";
-import { EmptyDataIcon } from "../../components/svg/EmptyDataIcon/EmptyDataIcon";
+import { Grid, IColumnDef } from "@inovaetech/components-react";
 
 export const ListOcor: React.FC = () => {
-  const { dark } = UseApp();
-  const { ocorrencias, getDescPeca } = UseMonit();
-  const gridRef = useRef<any>();
+  const { ocorrencias } = UseMonit();
 
-  const [columnDefs] = useState<ColDef[]>([
+  const [columnDefs] = useState<IColumnDef[]>([
     {
-      field: "motivo",
-      sortable: true,
-      headerName: "Motivo",
-      resizable: true,
-      headerClass: "text-xs max-mobile:text-2xs",
-      cellClass: "text-xs max-mobile:text-2xs",
+      accessorKey: "motivo",
+      enableSorting: true,
+      header: "Motivo",
+      enableResizing: true,
+      size: 250,
     },
     {
-      field: "localAntigo",
-      width: 150,
-      sortable: true,
-      filter: "text",
-      headerName: "Local antigo",
-      resizable: true,
-      headerClass: "text-xs max-mobile:text-2xs",
-      cellClass: "text-xs max-mobile:text-2xs",
+      accessorKey: "localAntigo",
+      size: 150,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Local antigo",
+      enableResizing: true,
     },
     {
-      field: "localNovo",
-      width: 150,
-      sortable: true,
-      filter: "text",
-      headerName: "Local novo",
-      resizable: true,
-      headerClass: "text-xs max-mobile:text-2xs",
-      cellClass: "text-xs max-mobile:text-2xs",
+      accessorKey: "localNovo",
+      size: 150,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Local novo",
+      enableResizing: true,
     },
     {
-      field: "difEstoque",
-      width: 100,
-      sortable: true,
-      filter: "text",
-      headerName: "Estoque",
-      resizable: true,
-      headerClass: "text-xs max-mobile:text-2xs",
-      cellClass: "text-xs max-mobile:text-2xs",
+      accessorKey: "difEstoque",
+      size: 120,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Estoque",
+      enableResizing: true,
     },
     {
-      field: "pecaDesc",
-      sortable: true,
-      filter: "text",
-      headerName: "Descrição",
-      resizable: true,
-      headerClass: "text-xs max-mobile:text-2xs",
-      cellClass: "text-xs max-mobile:text-2xs",
+      accessorKey: "pecaDesc",
+      enableSorting: true,
+      size: 300,
+      enableColumnFilter: true,
+      header: "Descrição",
+      enableResizing: true,
     },
     {
-      field: "produtoDesc",
-      sortable: true,
-      filter: "agNumberColumnFilter",
-      filterParams: {
-        buttons: ["apply", "reset"],
-        closeOnApply: true,
-      } as INumberFilterParams,
-      headerName: "Produto",
-      resizable: true,
-      headerClass: "text-xs max-mobile:text-2xs",
-      cellClass: "text-xs max-mobile:text-2xs",
+      accessorKey: "produtoDesc",
+      enableSorting: true,
+      size: 300,
+      enableColumnFilter: true,
+      meta: { filterVariant: "number" },
+      header: "Produto",
+      enableResizing: true,
     },
   ]);
 
-  useEffect(() => {
-    if (gridRef.current.api) {
-      gridRef.current.api.sizeColumnsToFit();
-    }
-  }, [ocorrencias.data]);
-
   return (
-    <div
-      className={clsx(
-        dark ? "ag-theme-alpine-dark" : "ag-theme-alpine",
-        "ag-theme-alpine shadow-lg rounded-2xl overflow-hidden mt-4 relative bg-primary-s010"
-      )}
-      style={{ height: "350px", width: "95%", opacity: ocorrencias.isFetching ? 0.4 : 1 }}
-    >
-      <AgGridReact
-        ref={gridRef}
-        getRowHeight={() => {
-          return 22;
-        }}
-        noRowsOverlayComponent={() => {
-          return (
-            <Column horizontal="center">
-              <EmptyDataIcon size={60} />
-              <Text spacingTop="md" fontSize="lg">
-                Sem dados para mostrar
-              </Text>
-            </Column>
-          );
-        }}
-        animateRows={true}
-        suppressCellFocus={false}
-        headerHeight={40}
-        rowHeight={30}
-        rowSelection="single"
-        rowData={ocorrencias.data}
-        columnDefs={columnDefs}
-      />
+    <div style={{ height: "350px", width: "100%", opacity: ocorrencias.isFetching ? 0.4 : 1 }}>
+      <Grid data={ocorrencias.data} columns={columnDefs} classNames={{ inner: "max-h-[350px] min-h-[350px]" }} />
     </div>
   );
 };

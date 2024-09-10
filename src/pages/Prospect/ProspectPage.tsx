@@ -1,14 +1,14 @@
 import axios from "axios";
-import { Button, Column, Input, Row, Text } from "componentes-web-lojas-cem";
+import { Column, Row } from "componentes-web-lojas-cem";
 import React from "react";
-import { MdDownload, MdOpenInBrowser, MdSearch } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
-import { Header } from "../Header/Header";
 import { serviceProduto } from "../../repository/contagem";
 import { Toast } from "../../components/Toast/Toast";
 import { PECA_ITEM } from "../../../../wmspecas/prisma/generated/clientPeca";
 import clsx from "clsx";
 import { maskLocal } from "../../useCases/maskLocal";
+import { Header } from "../../components/Header";
+import { Button, Card, Text, TextField } from "@inovaetech/components-react";
 const API = import.meta.env.PROD ? import.meta.env.VITE_PROSPECT_API_PROD : import.meta.env.VITE_PROSPECT_API;
 
 export const ProspectPage = (): JSX.Element => {
@@ -61,91 +61,71 @@ export const ProspectPage = (): JSX.Element => {
   //192.168.28.3:50000/wms_aplications/PECA_PROSPECTO/${String(codigo)}.pdf
 
   return (
-    <Header title="Prospecto">
-      <Column width="100%" horizontal="center" vertical="flex-start" className="flex-nowrap">
-        <Input
-          label=" Código do produto:"
-          propsInput={{
-            value: codePeca,
-            type: "number",
-            onChange: (event: any) => {
-              setCodePeca(event.target.value);
-            },
-          }}
-        />
-        <Button onClick={onClickSubmit} color="primary" className="mt-2">
-          <Row>
-            <MdSearch size={20} className="mr-1" />
-            Pesquisar
-          </Row>
+    <main className="h-full w-full">
+      <Header title="Prospecto"> </Header>
+      <Column width="100%" horizontal="center" vertical="flex-start" className="flex-nowrap mt-4">
+        <TextField className="w-72" size="lg" label=" Código do produto:" value={codePeca} type="number" onChange={setCodePeca} />
+        <Button leftIcon="MdSearch" onPress={onClickSubmit} color="primary" className="mt-2">
+          Pesquisar
         </Button>
 
         {data[0] && (
-          <Button onClick={navigateVisualizer} color="primary" className="mt-2">
-            <Row>
-              <MdOpenInBrowser size={20} className="mr-1" />
-              Visualizar Prospecto
-            </Row>
+          <Button leftIcon="MdOpenInBrowser" onPress={navigateVisualizer} color="primary" className="mt-2">
+            Visualizar Prospecto
           </Button>
         )}
 
         {data[0] && (
-          <Button onClick={openProspect} color="primary" className="mt-2">
-            <Row>
-              <MdDownload size={20} className="mr-1" />
-              Baixar Prospecto
-            </Row>
+          <Button leftIcon="MdDownload" onPress={openProspect} color="primary" className="mt-2">
+            Baixar Prospecto
           </Button>
         )}
 
         {data[0] && (
-          <Text asChild fontSize="xl" spacingTop="md" spacingBottom="md">
-            <h1>{data[0].ITE_COD_BASE_DESC}</h1>
+          <Text size="xl" color="default" className="my-4">
+            {data[0].ITE_COD_BASE_DESC}
           </Text>
         )}
 
         {data &&
           data.map((peca, index) => {
             return (
-              <Row
-                bg="00"
-                width="70%"
+              <Card
+                elevated
+                animation
                 key={index}
-                className={clsx(
-                  "p-4 mb-2 hover:bg-neutral-light-s20 rounded-xl border border-neutral-light-s20 shadow-sm",
-                  "max-mobile:w-[90%] dark:hover:bg-neutral-dark-s20 dark:border-neutral-dark-s20"
-                )}
+                className={clsx("w-[70%] p-4 mb-2 flex-row items-center ", "max-mobile:!w-[90%]")}
               >
                 <Column width="85%">
-                  <Text asChild fontSize="md">
-                    <h1>{peca.ITE_DESCRICAO}</h1>
+                  <Text size="md" color="default" weight="bold">
+                    {peca.ITE_DESCRICAO}
                   </Text>
                   <Row>
-                    <Text asChild color="medium" fontSize="md" className="mr-2 max-mobile:text-sm">
-                      <h1>LOCAL: </h1>
+                    <Text color="contentPrimary" size="md" className="mr-2 max-mobile:!text-sm">
+                      LOCAL:
                     </Text>
-                    <Text asChild color="medium" fontSize="md" className="max-mobile:text-sm">
-                      <h1>{maskLocal(peca.ITE_LOCAL)}</h1>
+                    <Text color="contentPrimary" size="md" className="max-mobile:!text-sm">
+                      {maskLocal(peca.ITE_LOCAL)}
                     </Text>
                   </Row>
                   <Row>
-                    <Text asChild color="medium" fontSize="md" className="mr-2 max-mobile:text-sm">
-                      <h1>QTDE:</h1>
+                    <Text color="contentPrimary" size="md" className="mr-2 max-mobile:!text-sm">
+                      QTDE:
                     </Text>
-                    <Text asChild color="medium" fontSize="md" className="max-mobile:text-sm">
-                      <h1>{peca.ITE_QTDE}</h1>
+                    <Text color="contentPrimary" size="md" className="max-mobile:!text-sm">
+                      {peca.ITE_QTDE}
                     </Text>
                   </Row>
                 </Column>
-                <Text asChild fontSize="md" align="center" className="w-[15%] max-mobile:text-sm">
-                  <h1>{peca.ITE_CODIGO}</h1>
+                <Text size="lg" className="w-[15%] max-mobile:!text-sm text-center">
+                  {peca.ITE_CODIGO}
                 </Text>
-              </Row>
+              </Card>
             );
           })}
 
         <Row height="100px" width="10px" className="text-neutral-light-s10 dark:text-neutral-dark-s10" children="."></Row>
       </Column>
-    </Header>
+    </main>
   );
 };

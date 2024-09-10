@@ -1,11 +1,9 @@
 import React from "react";
-import { colors } from "estilos-lojas-cem";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, Brush, ResponsiveContainer, AreaChart, Area } from "recharts";
-// import { UseDataAplication } from "../hooks/Aplication/UseDataAplication";
-import { UseApp } from "../../hooks/AppProvider";
-import { IOptions } from "../SelectComponent/SelectComponent";
-import { Row } from "componentes-web-lojas-cem";
 import { UseMonit } from "../../hooks/MonitProvider";
+import { HStack, useTheme } from "@inovaetech/components-react";
+import { IOptions } from "../../interfaces/IOptions";
+import colors from "@inovaetech/components-react/colors";
 
 export interface IGraph {
   lengthBrush?: number;
@@ -46,7 +44,7 @@ const testingFilter = ({ selectRua, value }: { selectRua: IOptions | undefined; 
 };
 
 export const Graph = ({}: IGraph) => {
-  const { dark } = UseApp();
+  const { isDark: dark } = useTheme();
 
   const [data, setData] = React.useState<IData[]>([]);
   const [maxData, setMaxData] = React.useState<number>(0);
@@ -93,7 +91,7 @@ export const Graph = ({}: IGraph) => {
   }, [servicosGrafico?.data, selectGrupos, selectRua]);
 
   return (
-    <Row width="95%" height="300px" bg="00" id="barchart" className={"rounded-lg shadow-lg"}>
+    <HStack bg="surface" id="barchart" className={"w-full h-[300px] rounded-lg shadow-lg"}>
       <ResponsiveContainer width="100%" height="100%" minWidth={"200px"}>
         <BarChart
           style={{ opacity: servicosGrafico?.isFetching ? 0.4 : 1 }}
@@ -144,12 +142,12 @@ export const Graph = ({}: IGraph) => {
               cursor: "pointer",
             }}
             cursor={{
-              fill: dark ? "#bbb" : `${colors.primary.s100}20`,
+              fill: dark ? "#bbb" : `${colors.primary[500]}20`,
             }}
           />
           <Legend verticalAlign="top" wrapperStyle={{ lineHeight: "40px" }} />
           {brushIndex > 0 && (
-            <Brush startIndex={0} endIndex={brushIndex} dataKey={"rua"} height={20} stroke={colors.primary.s080}>
+            <Brush startIndex={0} endIndex={brushIndex} dataKey={"rua"} height={20} stroke={colors.primary[400]}>
               <AreaChart>
                 <Area
                   type="natural"
@@ -157,17 +155,17 @@ export const Graph = ({}: IGraph) => {
                   dataKey="pendente"
                   name="Contado"
                   fillOpacity={1}
-                  fill={`${colors.error.s100}`}
+                  fill={`${colors.error[500]}`}
                 />
-                <Area type="natural" stroke="#00ff0010" dataKey="fim" name="Contado" fill={`${colors.success.s100}`} />
-                <Area type="natural" stroke="#ffff2220" dataKey="exec" name="Contado" fill={`${colors.attention.s100}`} />
+                <Area type="natural" stroke="#00ff0010" dataKey="fim" name="Contado" fill={`${colors.success[500]}`} />
+                <Area type="natural" stroke="#ffff2220" dataKey="exec" name="Contado" fill={`${colors.warning[500]}`} />
 
                 <Area
                   type="natural"
-                  stroke={colors.primary.s100}
+                  stroke={colors.primary[500]}
                   dataKey="total"
                   name="Total"
-                  fill={`${colors.primary.s080}30`}
+                  fill={`${colors.primary[400]}30`}
                 />
               </AreaChart>
             </Brush>
@@ -195,7 +193,7 @@ export const Graph = ({}: IGraph) => {
             }}
             dataKey="pendente"
             name="Pendente"
-            fill={colors.error.s080}
+            fill={colors.error[500]}
           />
 
           <Bar
@@ -207,7 +205,7 @@ export const Graph = ({}: IGraph) => {
             barSize={5}
             dataKey=""
             name=""
-            fill={dark ? colors.neutral.dark.s00 : colors.neutral.light.s00}
+            fill={dark ? colors.dark[700] : "#fff"}
             opacity={0}
           />
 
@@ -219,7 +217,7 @@ export const Graph = ({}: IGraph) => {
             }}
             dataKey="fim"
             name="Finalizado"
-            fill={colors.success.s100}
+            fill={colors.success[500]}
           />
 
           <Bar
@@ -231,7 +229,7 @@ export const Graph = ({}: IGraph) => {
             barSize={5}
             dataKey=""
             name=""
-            fill={dark ? colors.neutral.dark.s00 : colors.neutral.light.s00}
+            fill={dark ? colors.dark[700] : "#fff"}
             opacity={0}
           />
 
@@ -243,10 +241,10 @@ export const Graph = ({}: IGraph) => {
             }}
             dataKey="total"
             name="Total"
-            fill={colors.primary.s100}
+            fill={colors.primary[500]}
           />
         </BarChart>
       </ResponsiveContainer>
-    </Row>
+    </HStack>
   );
 };

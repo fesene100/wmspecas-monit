@@ -1,162 +1,102 @@
-import React, { useEffect, useRef, useState } from "react";
-import clsx from "clsx";
+import React, { useRef, useState } from "react";
 import { UseApp } from "../../hooks/AppProvider";
-import { AgGridReact } from "ag-grid-react";
-import { ColDef, INumberFilterParams } from "ag-grid-community";
-import { Column, Row, Text } from "componentes-web-lojas-cem";
+import { Row } from "componentes-web-lojas-cem";
 import { UseMonit } from "../../hooks/MonitProvider";
-import { EmptyDataIcon } from "../../components/svg/EmptyDataIcon/EmptyDataIcon";
-import { useParams } from "react-router-dom";
+import { Grid, HStack, IColumnDef } from "@inovaetech/components-react";
 
 export const ListMonit: React.FC = () => {
-  const { dark, mode } = UseApp();
+  const { mode } = UseApp();
   const { list, getDescPeca } = UseMonit();
   const gridRef = useRef<any>();
-  let { dep } = useParams();
 
-  const [columnDefs] = useState<ColDef[]>([
+  const [columnDefs] = useState<IColumnDef[]>([
     {
-      field: "endereco",
-      sortable: true,
-      headerName: "Endereço",
-      resizable: true,
-      minWidth: 90,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "endereco",
+      enableSorting: true,
+      header: "Endereço",
+      enableResizing: true,
+      minSize: 90,
     },
     {
-      field: "seqItem",
-      minWidth: 60,
-      sortable: true,
-        filter: "agNumberColumnFilter",
-      filterParams: {
-        buttons: ["apply", "reset"],
-        closeOnApply: true,
-      } as INumberFilterParams,
-      headerName: "Peça",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "seqItem",
+      minSize: 60,
+      enableSorting: true,
+      enableColumnFilter: true,
+      meta: { filterVariant: "number" },
+      header: "Peça",
+      enableResizing: true,
     },
     {
-      field: "qtde",
-      hide: mode ? false : true,
-      minWidth: 80,
-      sortable: true,
-        filter: "agNumberColumnFilter",
-      filterParams: {
-        buttons: ["apply", "reset"],
-        closeOnApply: true,
-      } as INumberFilterParams,
-      headerName: "Qtde",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: mode ? "qtde" : "",
+      minSize: 80,
+      enableSorting: true,
+      enableColumnFilter: true,
+      meta: { filterVariant: "number" },
+      header: "Qtde",
+      enableResizing: true,
     },
     {
-      field: "contagem",
-      minWidth: 60,
-      sortable: true,
-      filter: "text",
-      headerName: "Nº",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "contagem",
+      minSize: 60,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Nº",
+      enableResizing: true,
     },
     {
-      field: "status",
-      width: 90,
-      minWidth: 40,
-      sortable: true,
-        filter: "agNumberColumnFilter",
-      filterParams: {
-        buttons: ["apply", "reset"],
-        closeOnApply: true,
-      } as INumberFilterParams,
-      headerName: "Status",
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
-      cellRenderer: (params: any) => {
+      accessorKey: "status",
+      size: 90,
+      minSize: 40,
+      enableSorting: true,
+      enableColumnFilter: true,
+      meta: { filterVariant: "number", cellAlign: "center" },
+      header: "Status",
+
+      cell: ({ getValue }) => {
+        const value = getValue();
         return (
-          <Row
-            className={params.value == 3 ? "bg-attention-s100" : params.value == 2 ? "bg-success-s100" : "bg-error-s100"}
-            height="100%"
-            width="50%"
-            horizontal="center"
-            vertical="center"
-          >
-            {/* {params.value ? "🌧️" : "☀️"} */}
-          </Row>
+          <HStack className="w-full h-full" justifyContent="center">
+            <Row
+              className={value == 3 ? "bg-attention-s100" : value == 2 ? "bg-success-s100" : "bg-error-s100"}
+              height="100%"
+              width="50%"
+              horizontal="center"
+              vertical="center"
+            ></Row>
+          </HStack>
         );
       },
-      resizable: true,
+      enableResizing: true,
     },
     {
-      field: "ocorrencias",
-      minWidth: 30,
-      sortable: true,
-        filter: "agNumberColumnFilter",
-      filterParams: {
-        buttons: ["apply", "reset"],
-        closeOnApply: true,
-      } as INumberFilterParams,
-      headerName: "Ocorrências",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "ocorrencias",
+      minSize: 30,
+      enableSorting: true,
+      enableColumnFilter: true,
+      meta: { filterVariant: "number" },
+      header: "Ocorrências",
+      enableResizing: true,
     },
     {
-      field: "usuario",
-      minWidth: 100,
-      sortable: true,
-      filter: "text",
-      headerName: "Usuário",
-      resizable: true,
-      headerClass: "max-mobile:text-2xs",
-      cellClass: "max-mobile:text-2xs",
+      accessorKey: "usuario",
+      minSize: 100,
+      enableSorting: true,
+      enableColumnFilter: true,
+      header: "Usuário",
+      enableResizing: true,
     },
   ]);
 
-  useEffect(() => {
-    if (gridRef.current.api) {
-      gridRef.current.api.sizeColumnsToFit();
-    }
-  }, [list.data]);
-
   return (
-    <div
-      className={clsx(
-        dark ? "ag-theme-alpine-dark" : "ag-theme-alpine",
-        "ag-theme-alpine shadow-lg rounded-2xl overflow-hidden mt-4 relative bg-primary-s010"
-      )}
-      style={{ height: "350px", width: "95%", opacity: list.isFetching ? 0.4 : 1 }}
-    >
-      <AgGridReact
+    <div style={{ height: "350px", width: "100%", opacity: list.isFetching ? 0.4 : 1 }}>
+      <Grid
         ref={gridRef}
-        noRowsOverlayComponent={() => {
-          return (
-            <Column horizontal="center">
-              <EmptyDataIcon size={60} />
-              <Text spacingTop="md" fontSize="lg">
-                Sem dados para mostrar
-              </Text>
-            </Column>
-          );
+        onClickRow={(value: any) => {
+          getDescPeca(value.row.seqItem);
         }}
-        getRowHeight={() => {
-          return 22;
-        }}
-        animateRows={true}
-        suppressCellFocus={false}
-        headerHeight={40}
-        rowClass={"cursor-pointer"}
-        onRowClicked={(value) => {
-          getDescPeca(value.data.seqItem);
-        }}
-        rowHeight={30}
-        rowSelection="single"
-        rowData={list.data}
-        columnDefs={columnDefs}
+        classNames={{ inner: "max-h-[350px] min-h-[350px]" }}
+        data={list.data}
+        columns={columnDefs}
       />
     </div>
   );

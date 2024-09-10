@@ -2,9 +2,6 @@
 // eslint-disable-next-line no-undef
 module.exports = {
   content: ["./src/**/*.{html,tsx,ts}"],
-  // corePlugins: {
-  //   preflight: false,
-  // },
   darkMode: "class",
 
   theme: {
@@ -51,5 +48,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animated")],
-  important: true,
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { GlobalWorkerOptions, getDocument, version } from "pdfjs-dist";
+import { GlobalWorkerOptions, getDocument } from "pdfjs-dist";
 import "pdfjs-dist/web/pdf_viewer.css";
 GlobalWorkerOptions.workerSrc = `/pdfjs-dist/build/pdf.worker.js`;
 import "../../../public/pdfjs-dist/web/viewer.css";

@@ -7,10 +7,10 @@ import {
 } from "../repository/contagem";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { IGraphContagem, IListContagem, IListOccorrency } from "../../../wmspecas/src/models/monitoramentoService";
-import { IOptions } from "../components/SelectComponent/SelectComponent";
 import Swal from "sweetalert2";
-import { colors } from "estilos-lojas-cem";
 import { maskLocal } from "../useCases/maskLocal";
+import { IOptions } from "../interfaces/IOptions";
+import colors from "@inovaetech/components-react/colors";
 
 export const optionsRuas: IOptions[] = [
   { value: "1", label: "Executando " },
@@ -61,7 +61,7 @@ export const MonitProvider = ({ children }: Props) => {
 
       consulta
         ? Swal.fire({
-            confirmButtonColor: colors.primary.s100,
+            confirmButtonColor: colors.primary[500],
             title: consulta.ITE_COD_BASE_DESC,
             html: `
             <h2 style="color:#32323280" >${consulta.ITE_DESCRICAO}</h2>
@@ -70,7 +70,7 @@ export const MonitProvider = ({ children }: Props) => {
             <p style="float:right;color:#323232"><b>COD BASE:</b> ${consulta.ITE_COD_BASE}</p>`,
           })
         : Swal.fire({
-            confirmButtonColor: colors.primary.s100,
+            confirmButtonColor: colors.primary[500],
             icon: "error",
             title: "Peça não encontrada",
           });
