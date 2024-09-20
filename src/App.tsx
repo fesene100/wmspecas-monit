@@ -10,6 +10,8 @@ import { Ocorrencias } from "./pages/Ocorrencias/Ocorrencias";
 import { OcorrenciasProvider } from "./hooks/OcorrenciasProvider";
 import { PageNotFound } from "@inovaetech/components-react";
 import { SideBarClient } from "./components/Sidebar";
+import { Pedidos } from "./pages/Pedidos/Pedidos";
+import { PedidosProvider } from "./hooks/PedidosProvider";
 
 function App() {
   return (
@@ -39,6 +41,14 @@ function App() {
             <OcorrenciasProvider>
               <Ocorrencias />
             </OcorrenciasProvider>
+          }
+        />
+        <Route
+          path="/pedidos/"
+          element={
+            <PedidosProvider>
+              <Pedidos />
+            </PedidosProvider>
           }
         />
       </Route>

@@ -31,6 +31,7 @@ export const SideBarClient = (): JSX.Element => {
             />
             <SideBar.Item label="Contagem" href="/contagem" icon={"PiChartBar"} activeIcon={"PiChartBarFill"} />
             <SideBar.Item label="Ocorrências" href="/ocorrencias" icon={"PiWarning"} activeIcon={"PiWarningFill"} />
+            <SideBar.Item label="Pedidos" href="/pedidos" icon={"PiShoppingBagOpen"} activeIcon={"PiShoppingBagOpenFill"} />
             <SideBar.Item label="Prospecto" href="/searchProspect" icon={"PiBookOpenText"} activeIcon={"PiBookOpenTextFill"} />
           </SideBar.Content>
           <SideBar.Footer>
