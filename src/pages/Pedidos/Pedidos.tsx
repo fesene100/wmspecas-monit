@@ -269,7 +269,7 @@ export const Pedidos = (): JSX.Element => {
             className="mt-4"
             inputSearch={{
               show: true,
-              keys: ["sup.name", "sup.code", "describer", "baseCode"],
+              keys: ["sup.name", "describer", "baseDescriber", "baseCode"],
               props: { description: `${total} peças encontradas` },
             }}
             onFilterChange={(val) => {
@@ -283,15 +283,16 @@ export const Pedidos = (): JSX.Element => {
                 enableColumnFilter: true,
                 meta: { initialFilterOption: "SELECIONAR" },
               },
-              {
-                accessorKey: "sup.code",
-                header: "Código do fornecedor",
-                enableSorting: true,
-                enableColumnFilter: true,
-                meta: { filterVariant: "number" },
-              },
+              // {
+              //   accessorKey: "sup.code",
+              //   header: "Código do fornecedor",
+              //   enableSorting: true,
+              //   enableColumnFilter: true,
+              //   meta: { filterVariant: "number" },
+              // },
               { accessorKey: "code", header: "Código", enableSorting: true, enableColumnFilter: true },
               { accessorKey: "describer", header: "Descrição", enableSorting: true, enableColumnFilter: true },
+              { accessorKey: "baseDescriber", header: "Produto", enableSorting: true, enableColumnFilter: true },
               {
                 accessorKey: "baseCode",
                 header: "Código base",
